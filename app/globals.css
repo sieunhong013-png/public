@@ -1,26 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap");
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --seoul-blue: #0052a4;
+  --seoul-blue-light: #1a7ec8;
+  --seoul-red: #d0021b;
+  --accent: #00c4b3;
+  --stat-blue: #5baeff;
+  --dark: #0b1f47;
+  --dark-card: #122a5c;
+  --dark-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.82);
+  --text-muted: rgba(255, 255, 255, 0.58);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: "Bebas Neue", var(--font-sans);
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.35rem;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.55rem;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.65rem;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.75rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--dark);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(30, 64, 140, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(18, 42, 92, 0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0, 82, 164, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.card-surface {
+  border-radius: 12px;
+  border: 1px solid var(--dark-border);
+  background: var(--dark-card);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--seoul-blue), var(--accent));
+  transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease-out both;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+button {
+  font-size: 1rem;
+}
+
+/* 협력 기관 로고: 항상 가로 한 줄 */
+.partner-logos-row {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logos-row img {
+  display: block;
+  width: auto;
+  max-width: none;
 }

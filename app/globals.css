@@ -1,20 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 :root {
-  --seoul-blue: #d63384;
-  --seoul-blue-light: #e91e8c;
-  --seoul-red: #c2185b;
+  --seoul-blue: #1565c0;
+  --seoul-blue-light: #1976d2;
+  --seoul-red: #c62828;
   --accent: #2d6a4f;
-  --stat-blue: #ad1457;
-  --dark: #fce4ec;
-  --dark-card: #fdf0f5;
-  --dark-border: rgba(0, 0, 0, 0.10);
+  --stat-blue: #1565c0;
+  --dark: #fdf6f9;
+  --dark-card: #ffffff;
+  --dark-border: rgba(214,51,132,0.12);
   --text-primary: #1a1a2e;
-  --text-secondary: rgba(0, 0, 0, 0.75);
-  --text-muted: rgba(0, 0, 0, 0.55);
+  --text-secondary: rgba(26,26,46,0.68);
+  --text-muted: rgba(26,26,46,0.45);
+  --pink-main: #d63384;
+  --pink-light: #fce4ec;
+  --pink-mid: #f8bbd0;
 }
 @theme inline {
-  --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-sans: "Noto Sans KR", "DM Sans", -apple-system, sans-serif;
   --font-display: "Bebas Neue", var(--font-sans);
   --text-xs: 0.875rem;
   --text-xs--line-height: 1.35rem;
@@ -33,16 +36,15 @@ body {
   line-height: 1.65;
   letter-spacing: -0.02em;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(255, 182, 193, 0.5) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(255, 160, 180, 0.4) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 192, 203, 0.2) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 5% 0%, rgba(248,187,208,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 95% 90%, rgba(214,51,132,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 60% at 50% 50%, rgba(253,246,249,1) 0%, transparent 80%);
   pointer-events: none;
   z-index: 0;
 }
@@ -51,25 +53,38 @@ body::before {
   letter-spacing: 0.04em;
 }
 .card-surface {
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--dark-border);
-  background: var(--dark-card);
+  background: #ffffff;
+  box-shadow: 0 1px 12px rgba(214,51,132,0.06);
 }
 .progress-bar-fill {
   height: 100%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #d63384, #2d6a4f);
+  background: linear-gradient(90deg, var(--pink-main), var(--accent));
   transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214,51,132,0.3); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(214,51,132,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214,51,132,0); }
 }
 .animate-fade-up {
   animation: fadeUp 0.5s ease-out both;
 }
-button, input, textarea { font-family: inherit; font-size: 1rem; }
+button, input, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
 button { font-size: 1rem; }
+header {
+  background: rgba(253,246,249,0.85) !important;
+  border-bottom: 1px solid rgba(214,51,132,0.1) !important;
+}
 .partner-logos-row {
   display: inline-flex;
   flex-direction: row;
@@ -77,4 +92,36 @@ button { font-size: 1rem; }
   align-items: center;
   justify-content: center;
 }
-.partner-logos-row img { display: block; width: auto; max-width: none; }
+.partner-logos-row img {
+  display: block;
+  width: auto;
+  max-width: none;
+}
+[class*="bg-\[var\(--dark-card\)"] {
+  background: #ffffff !important;
+}
+[class*="text-white"] {
+  color: var(--text-primary) !important;
+}
+[class*="bg-\[var\(--dark\)"] {
+  background: var(--pink-light) !important;
+}
+[class*="border-\[var\(--dark-border\)"] {
+  border-color: rgba(214,51,132,0.12) !important;
+}
+input, textarea, select {
+  background: #fff9fb !important;
+  border-color: rgba(214,51,132,0.2) !important;
+  color: var(--text-primary) !important;
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(26,26,46,0.38) !important;
+}
+.rounded-full.border.px-4 {
+  border-color: rgba(214,51,132,0.2);
+  color: var(--text-secondary);
+}
+.rounded-full.border.px-4:hover {
+  border-color: var(--pink-main);
+  color: var(--pink-main);
+}

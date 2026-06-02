@@ -1116,34 +1116,69 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-                <div className="mt-8 space-y-6">
-                  <div className="card-surface p-5 rounded-xl border border-[var(--dark-border)]">
-                    <h2 className="text-lg font-medium mb-4">🤖 AI 맞춤 산책 코스 추천</h2>
+                                <div className="mt-6 space-y-4">
+                  <div className="rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-base font-medium text-[#1a1a2e]">AI 맞춤 산책 코스 추천</h2>
+                      <span className="text-xs text-pink-400 bg-pink-50 px-2 py-1 rounded-full">혈압 맞춤</span>
+                    </div>
                     <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div><label className="text-xs text-[var(--text-secondary)] mb-1 block">나이</label><input id="ai-age" type="number" placeholder="예: 45" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm" /></div>
-                      <div><label className="text-xs text-[var(--text-secondary)] mb-1 block">수축기 혈압</label><input id="ai-bp" type="number" placeholder="예: 135" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm" /></div>
-                      <div><label className="text-xs text-[var(--text-secondary)] mb-1 block">운동 강도</label><select id="ai-level" className="w-full rounded-lg border border-[var(--dark-border)] bg-[var(--dark-card)] px-3 py-2 text-sm"><option value="easy">가볍게</option><option value="medium">보통</option><option value="hard">강하게</option></select></div>
-                      <div><label className="text-xs text-[var(--text-secondary)] mb-1 block">가능 시간</label><select id="ai-time" className="w-full rounded-lg border border-[var(--dark-border)] bg-[var(--dark-card)] px-3 py-2 text-sm"><option value="20">20분</option><option value="30">30분</option><option value="60">1시간</option><option value="90">1시간 30분</option></select></div>
+                      <div>
+                        <label className="text-xs text-[#888] mb-1 block">나이</label>
+                        <input id="ai-age" type="number" placeholder="예: 45" className="w-full rounded-xl border border-pink-100 bg-pink-50/30 px-3 py-2 text-sm text-[#1a1a2e]" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-[#888] mb-1 block">수축기 혈압</label>
+                        <input id="ai-bp" type="number" placeholder="예: 135" className="w-full rounded-xl border border-pink-100 bg-pink-50/30 px-3 py-2 text-sm text-[#1a1a2e]" />
+                      </div>
+                      <div>
+                        <label className="text-xs text-[#888] mb-1 block">운동 강도</label>
+                        <select id="ai-level" className="w-full rounded-xl border border-pink-100 bg-white px-3 py-2 text-sm text-[#1a1a2e]">
+                          <option value="easy">가볍게</option>
+                          <option value="medium">보통</option>
+                          <option value="hard">강하게</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs text-[#888] mb-1 block">가능 시간</label>
+                        <select id="ai-time" className="w-full rounded-xl border border-pink-100 bg-white px-3 py-2 text-sm text-[#1a1a2e]">
+                          <option value="20">20분</option>
+                          <option value="30">30분</option>
+                          <option value="60">1시간</option>
+                          <option value="90">1시간 30분</option>
+                        </select>
+                      </div>
                     </div>
                     <button onClick={() => {
                       const age = (document.getElementById("ai-age") as HTMLInputElement)?.value;
                       const bp = parseInt((document.getElementById("ai-bp") as HTMLInputElement)?.value);
                       const time = (document.getElementById("ai-time") as HTMLSelectElement)?.value;
                       const result = document.getElementById("ai-result");
-                      if (!age || !bp) { if(result) result.innerHTML = "<p style=\'color:red\'>나이와 혈압을 입력해주세요.</p>"; return; }
+                      if (!age || !bp) { if(result) result.innerHTML = "<p style=\'color:#d63384;font-size:13px\'>나이와 혈압을 입력해주세요.</p>"; return; }
                       let course = "", tip = "";
-                      if (bp >= 140) { course = "🌿 한강 난지 수변공원 (평지, 2.1km)"; tip = "혈압이 높으니 평지 위주 가벼운 코스를 추천합니다. 준비운동 5분 필수!"; }
-                      else if (bp >= 130) { course = "🌸 서울숲 둘레길 (완만한 언덕, 3.2km)"; tip = "완만한 코스로 심박수를 서서히 올려주세요."; }
-                      else { course = "⛰️ 북한산 둘레길 1구간 (숲길, 4.5km)"; tip = "혈압이 안정적이에요! 숲길 파워워킹으로 심폐 기능을 강화해보세요."; }
-                      if(result) result.innerHTML = "<div style=\'margin-top:12px;padding:16px;border-radius:12px;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2)\'><p style=\'font-weight:500;color:#60A5FA;margin-bottom:4px\'>" + course + "</p><p style=\'font-size:13px;color:#9ca3af;margin-bottom:4px\'>" + tip + "</p><p style=\'font-size:12px;color:#6b7280\'>⏱ 예상: " + time + "분</p></div>";
-                    }} className="w-full py-2.5 rounded-xl bg-[var(--seoul-blue)] text-white text-sm font-medium">AI 코스 추천받기</button>
+                      if (bp >= 140) { course = "한강 난지 수변공원 (평지, 2.1km)"; tip = "혈압이 높으니 평지 위주 가벼운 코스를 추천합니다. 준비운동 5분 필수!"; }
+                      else if (bp >= 130) { course = "서울숲 둘레길 (완만한 언덕, 3.2km)"; tip = "완만한 코스로 심박수를 서서히 올려주세요."; }
+                      else { course = "북한산 둘레길 1구간 (숲길, 4.5km)"; tip = "혈압이 안정적이에요! 숲길 파워워킹으로 심폐 기능을 강화해보세요."; }
+                      if(result) result.innerHTML = "<div style=\'margin-top:12px;padding:16px;border-radius:16px;background:#fce4ec;border:1px solid #f8bbd0\'><p style=\'font-weight:500;color:#c2185b;margin-bottom:6px;font-size:14px\'>" + course + "</p><p style=\'font-size:13px;color:#888;margin-bottom:4px\'>" + tip + "</p><p style=\'font-size:12px;color:#d63384\'>예상: " + time + "분</p></div>";
+                    }} className="w-full py-2.5 rounded-xl text-white text-sm font-medium" style={{background:"#d63384"}}>AI 코스 추천받기</button>
                     <div id="ai-result"></div>
                   </div>
-                  <div className="card-surface p-5 rounded-xl border border-[var(--dark-border)]">
-                    <h2 className="text-lg font-medium mb-4">💓 산책 전후 혈압 기록</h2>
+                  <div className="rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-base font-medium text-[#1a1a2e]">산책 전후 혈압 기록</h2>
+                      <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">건강 기록</span>
+                    </div>
                     <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div className="p-3 rounded-xl bg-white/5 border border-[var(--dark-border)]"><p className="text-xs text-[var(--text-secondary)] mb-2">산책 전</p><input id="bp-before" type="number" placeholder="수축기 mmHg" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm mb-2" /><input id="bp-before-d" type="number" placeholder="이완기 mmHg" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm" /></div>
-                      <div className="p-3 rounded-xl bg-white/5 border border-[var(--dark-border)]"><p className="text-xs text-[var(--text-secondary)] mb-2">산책 후</p><input id="bp-after" type="number" placeholder="수축기 mmHg" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm mb-2" /><input id="bp-after-d" type="number" placeholder="이완기 mmHg" className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm" /></div>
+                      <div className="p-3 rounded-xl bg-pink-50/50 border border-pink-100">
+                        <p className="text-xs text-[#888] mb-2 font-medium">산책 전</p>
+                        <input id="bp-before" type="number" placeholder="수축기 mmHg" className="w-full rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm text-[#1a1a2e] mb-2" />
+                        <input id="bp-before-d" type="number" placeholder="이완기 mmHg" className="w-full rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm text-[#1a1a2e]" />
+                      </div>
+                      <div className="p-3 rounded-xl bg-green-50/50 border border-green-100">
+                        <p className="text-xs text-[#888] mb-2 font-medium">산책 후</p>
+                        <input id="bp-after" type="number" placeholder="수축기 mmHg" className="w-full rounded-lg border border-green-100 bg-white px-3 py-2 text-sm text-[#1a1a2e] mb-2" />
+                        <input id="bp-after-d" type="number" placeholder="이완기 mmHg" className="w-full rounded-lg border border-green-100 bg-white px-3 py-2 text-sm text-[#1a1a2e]" />
+                      </div>
                     </div>
                     <button onClick={() => {
                       const before = parseInt((document.getElementById("bp-before") as HTMLInputElement)?.value);
@@ -1151,14 +1186,14 @@ export default function Home() {
                       const after = parseInt((document.getElementById("bp-after") as HTMLInputElement)?.value);
                       const afterD = parseInt((document.getElementById("bp-after-d") as HTMLInputElement)?.value);
                       const result = document.getElementById("bp-result");
-                      if (!before || !after) { if(result) result.innerHTML = "<p style=\'color:red\'>전후 혈압을 모두 입력해주세요.</p>"; return; }
+                      if (!before || !after) { if(result) result.innerHTML = "<p style=\'color:#d63384;font-size:13px\'>전후 혈압을 모두 입력해주세요.</p>"; return; }
                       const diff = before - after;
-                      let msg = "", color = "";
-                      if (diff > 0) { msg = "산책 후 " + diff + "mmHg 낮아졌어요! 👏 훌륭합니다."; color = "#34d399"; }
-                      else if (diff === 0) { msg = "혈압 변화가 없어요. 조금 더 걸어보세요! 🚶"; color = "#fbbf24"; }
-                      else { msg = "산책 후 " + Math.abs(diff) + "mmHg 높아졌어요. 충분히 휴식하세요. 💙"; color = "#60a5fa"; }
-                      if(result) result.innerHTML = "<div style=\'margin-top:12px;padding:16px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)\'><div style=\'display:flex;justify-content:space-between;margin-bottom:12px\'><div style=\'text-align:center\'><p style=\'font-size:11px;color:#9ca3af\'>산책 전</p><p style=\'font-size:20px;font-weight:500;color:#60a5fa\'>" + before + "/" + (beforeD||"-") + "</p></div><div style=\'font-size:20px\'>→</div><div style=\'text-align:center\'><p style=\'font-size:11px;color:#9ca3af\'>산책 후</p><p style=\'font-size:20px;font-weight:500;color:#34d399\'>" + after + "/" + (afterD||"-") + "</p></div></div><p style=\'text-align:center;color:" + color + "\'>" + msg + "</p></div>";
-                    }} className="w-full py-2.5 rounded-xl bg-[var(--accent)] text-white text-sm font-medium">혈압 변화 확인하기</button>
+                      let msg = "", color = "", bg = "";
+                      if (diff > 0) { msg = "산책 후 " + diff + "mmHg 낮아졌어요! 훌륭합니다."; color = "#2d6a4f"; bg = "#e8f5e9"; }
+                      else if (diff === 0) { msg = "혈압 변화가 없어요. 조금 더 걸어보세요!"; color = "#b45309"; bg = "#fffbeb"; }
+                      else { msg = "산책 후 " + Math.abs(diff) + "mmHg 높아졌어요. 충분히 휴식하세요."; color = "#1565c0"; bg = "#e3f2fd"; }
+                      if(result) result.innerHTML = "<div style=\'margin-top:12px;padding:16px;border-radius:16px;background:" + bg + ";border:1px solid rgba(0,0,0,0.06)\'><div style=\'display:flex;justify-content:space-between;align-items:center;margin-bottom:12px\'><div style=\'text-align:center\'><p style=\'font-size:11px;color:#888;margin-bottom:4px\'>산책 전</p><p style=\'font-size:22px;font-weight:500;color:#d63384\'>" + before + "<span style=\'font-size:12px\'>/" + (beforeD||"-") + "</span></p></div><div style=\'font-size:18px;color:#ccc\'>to</div><div style=\'text-align:center\'><p style=\'font-size:11px;color:#888;margin-bottom:4px\'>산책 후</p><p style=\'font-size:22px;font-weight:500;color:#2d6a4f\'>" + after + "<span style=\'font-size:12px\'>/" + (afterD||"-") + "</span></p></div></div><p style=\'text-align:center;color:" + color + ";font-size:14px;font-weight:500\'>" + msg + "</p></div>";
+                    }} className="w-full py-2.5 rounded-xl text-white text-sm font-medium" style={{background:"#2d6a4f"}}>혈압 변화 확인하기</button>
                     <div id="bp-result"></div>
                   </div>
                 </div>

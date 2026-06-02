@@ -847,17 +847,45 @@ export default function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-12 pt-8 sm:px-6">
-        <section className="animate-fade-up mb-10 text-center">
+        <section className="animate-fade-up mb-6">
+          <div className="relative overflow-hidden rounded-3xl px-6 py-8 mb-6" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 60%,#fce4ec 100%)"}}>
+            <div className="absolute right-[-20px] top-[-20px] w-32 h-32 rounded-full opacity-20" style={{background:"#d63384"}}></div>
+            <div className="absolute right-[30px] bottom-[-30px] w-20 h-20 rounded-full opacity-10" style={{background:"#d63384"}}></div>
+            <div className="relative z-10">
+              <span className="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-white px-3 py-1 text-sm font-medium text-pink-600 mb-4">
+                2026 서울 건강 캠페인
+              </span>
+              <h1 className="text-2xl font-medium leading-snug tracking-tight text-[#1a1a2e] sm:text-3xl mb-2">
+                나머지 <span className="text-[#d63384]">7.7%</span>의<br />
+                서울시민 건강을<br />
+                <span className="text-[#2d6a4f]">함께 찾습니다</span>
+              </h1>
+              <p className="text-sm text-[#888] mb-5">고혈압 치료율 92.3% → 100% 목표</p>
           <h1 className="mx-auto max-w-3xl text-2xl font-medium leading-snug tracking-tight sm:text-3xl md:text-4xl">
             서울시민의 고혈압 치료율 표준화율은{" "}
             <span className="text-[var(--accent)]">92.3%</span>로
             <br />
             나머지 <span className="text-[var(--stat-blue)]">7.7%</span>의 서울시민의 건강을 찾습니다
           </h1>
-
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 mb-2">
+            <div className="rounded-2xl bg-white border border-pink-100 p-3 text-center shadow-sm">
+              <p className="text-xs text-[#888] mb-1">치료율</p>
+              <p className="text-2xl font-medium text-[#1565c0]">92.3%</p>
+            </div>
+            <div className="rounded-2xl bg-white border border-pink-100 p-3 text-center shadow-sm">
+              <p className="text-xs text-[#888] mb-1">관리 공백</p>
+              <p className="text-2xl font-medium text-[#d63384]">7.7%</p>
+            </div>
+            <div className="rounded-2xl bg-white border border-pink-100 p-3 text-center shadow-sm">
+              <p className="text-xs text-[#888] mb-1">목표</p>
+              <p className="text-2xl font-medium text-[#c62828]">100%</p>
+            </div>
+          </div>
         </section>
 
-        <section className="card-surface mb-6 flex overflow-hidden">
+        <section className="card-surface mb-6 flex overflow-hidden" style={{display:"none"}}>
           <div className="flex flex-1 flex-col items-center border-r border-[var(--dark-border)] px-4 py-5 sm:px-6">
             <p className="text-sm text-[var(--text-secondary)]">2024 지역사회건강조사</p>
             <p className="font-display mt-1 text-4xl text-[var(--stat-blue)] sm:text-5xl">92.3%</p>

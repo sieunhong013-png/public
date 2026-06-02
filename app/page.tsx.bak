@@ -1874,8 +1874,40 @@ export default function Home() {
                 <p className="mt-1 text-sm text-[var(--text-secondary)]">
                   나트륨·포화지방은 줄이고 채소·통곡·생선·콩류를 늘리는 방향입니다.
                 </p>
-                  
-</div>
+                  <div className="mt-4 mb-4">
+                    <div className="flex gap-2 mb-3">
+                      <span className="text-xs px-3 py-1 rounded-full bg-[var(--seoul-blue)]/20 text-[var(--seoul-blue)] border border-[var(--seoul-blue)]/30">📅 일주일 식단</span>
+                      <span className="text-xs px-3 py-1 rounded-full bg-white/5 text-[var(--text-secondary)] border border-white/10">🤖 AI 맞춤 레시피</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-white/5 border border-[var(--dark-border)]">
+                      <p className="text-sm text-[var(--text-secondary)] mb-3">냉장고 재료를 입력하면 고혈압 맞춤 레시피를 AI가 만들어드려요!</p>
+                      <textarea id="modal-fridge-input" placeholder="예: 두부, 시금치, 양파, 된장..." className="w-full rounded-lg border border-[var(--dark-border)] bg-white/5 px-3 py-2 text-sm mb-3 h-20 resize-none" />
+                      <button onClick={() => {
+                        const input = (document.getElementById("modal-fridge-input") as HTMLTextAreaElement)?.value;
+                        const query = input ? input + " 고혈압 저염 레시피" : "고혈압 저염 건강 레시피";
+                        window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(query), "_blank");
+                      }} className="w-full py-2 rounded-xl bg-red-500 text-white text-sm font-medium mb-3">▶ 유튜브에서 레시피 찾기</button>
+                    <div className="mt-2">
+                      <p className="text-xs text-[var(--text-secondary)] mb-2">🎬 고혈압 요리 추천 채널</p>
+                      <div className="space-y-2">
+                        <a href="https://www.youtube.com/results?search_query=고혈압+저염식+레시피" target="_blank" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                          <span className="text-red-400 text-lg">▶</span>
+                          <div><p className="text-sm">고혈압 저염식 레시피</p><p className="text-xs text-[var(--text-secondary)]">나트륨 줄이는 건강 요리</p></div>
+                        </a>
+                        <a href="https://www.youtube.com/results?search_query=혈압낮추는음식+요리" target="_blank" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                          <span className="text-red-400 text-lg">▶</span>
+                          <div><p className="text-sm">혈압 낮추는 음식 요리</p><p className="text-xs text-[var(--text-secondary)]">칼륨 풍부한 식단 만들기</p></div>
+                        </a>
+                        <a href="https://www.youtube.com/results?search_query=DASH+다이어트+식단+요리" target="_blank" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                          <span className="text-red-400 text-lg">▶</span>
+                          <div><p className="text-sm">DASH 다이어트 식단</p><p className="text-xs text-[var(--text-secondary)]">고혈압 권장 식이요법</p></div>
+                        </a>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+
+              </div>
               <button
                 type="button"
                 className="shrink-0 rounded-full px-3 py-1.5 text-base text-[var(--text-secondary)] hover:bg-white/10"

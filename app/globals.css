@@ -2,13 +2,13 @@
 @import "tailwindcss";
 
 :root {
-  --seoul-blue: #0052a4;
-  --seoul-blue-light: #1a7ec8;
-  --seoul-red: #d0021b;
-  --accent: #00c4b3;
-  --stat-blue: #5baeff;
-  --dark: #0b1f47;
-  --dark-card: #122a5c;
+  --seoul-blue: #60A5FA;
+  --seoul-blue-light: #93C5FD;
+  --seoul-red: #F87171;
+  --accent: #34D399;
+  --stat-blue: #C4B5FD;
+  --dark: #080810;
+  --dark-card: #111118;
   --dark-border: rgba(255, 255, 255, 0.08);
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.82);

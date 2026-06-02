@@ -2126,11 +2126,57 @@ export default function Home() {
             <div className="flex shrink-0 items-start justify-between gap-4 border-b border-[var(--dark-border)] px-5 py-4">
               <div>
                 <h3 id="meal-plan-title" className="text-xl font-medium">
-                  고혈압 관리 일주일 식단 예시
+                  🧊 내 냉장고에 있는 재료는?
                 </h3>
                 <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                  나트륨·포화지방은 줄이고 채소·통곡·생선·콩류를 늘리는 방향입니다.
+                  재료를 입력하면 AI가 고혈압 맞춤 식단과 유튜브 레시피를 추천해드려요
                 </p>
+                <div className="mt-4 rounded-2xl border border-pink-100 bg-pink-50/50 p-4">
+                  <p className="text-sm font-medium text-[#1a1a2e] mb-1">재료 입력</p>
+                  <p className="text-xs text-[#888] mb-3">예: 두부, 시금치, 양파, 된장, 계란... (쉼표로 구분)</p>
+                  <div className="flex gap-2 mb-3">
+                    <input id="fridge-input" type="text" placeholder="예: 두부, 시금치, 양파, 된장, 계란..." className="flex-1 rounded-xl border border-pink-100 bg-white px-3 py-2 text-sm text-[#1a1a2e] outline-none" />
+                    <button onClick={() => {
+                      const input = (document.getElementById("fridge-input") as HTMLInputElement)?.value.trim();
+                      const result = document.getElementById("fridge-result");
+                      if (!input) { if(result) result.innerHTML = "<p style=\'color:#d63384;font-size:13px\'>재료를 입력해주세요.</p>"; return; }
+                      const items = input.split(/[,\s]+/).filter(Boolean);
+                      const vegMap: Record<string,string[]> = {
+                        "두부":["두부된장국","두부조림","순두부찌개"],"시금치":["시금치나물","시금치된장국","시금치계란볶음"],
+                        "양파":["양파볶음","양파된장국","양파피클"],"된장":["된장찌개","된장국","된장나물무침"],
+                        "계란":["계란찜","계란말이","계란국"],"브로콜리":["브로콜리볶음","브로콜리나물","브로콜리된장국"],
+                        "당근":["당근나물","당근볶음","당근된장국"],"배추":["배추된장국","배추나물","겉절이"],
+                        "고등어":["고등어구이","고등어조림","고등어된장찌개"],"연어":["연어구이","연어샐러드","연어덮밥"],
+                        "닭가슴살":["닭가슴살구이","닭가슴살샐러드","닭가슴살볶음"],"현미":["현미밥","현미죽","현미볶음밥"],
+                        "귀리":["귀리밥","귀리죽","귀리샐러드"],"토마토":["토마토샐러드","토마토달걀볶음","토마토수프"],
+                        "버섯":["버섯볶음","버섯된장국","버섯구이"],"무":["무나물","무국","무조림"],
+                        "호박":["호박볶음","호박된장국","호박전"],"콩나물":["콩나물국","콩나물무침","콩나물밥"],
+                        "미역":["미역국","미역무침","미역된장국"],"파":["파무침","파된장국","파전"],
+                      };
+                      const menus: string[] = [];
+                      const youtubeQueries: string[] = [];
+                      items.forEach(item => {
+                        const key = Object.keys(vegMap).find(k => item.includes(k));
+                        if (key) { menus.push(...vegMap[key].slice(0,2)); youtubeQueries.push(key + " 고혈압 저염 레시피"); }
+                      });
+                      const uniqueMenus = [...new Set(menus)].slice(0,6);
+                      const uniqueQueries = [...new Set(youtubeQueries)].slice(0,3);
+                      const weekPlan = [
+                        {day:"월",menu:uniqueMenus[0]||"현미밥 + 된장국"},
+                        {day:"화",menu:uniqueMenus[1]||"잡곡밥 + 나물"},
+                        {day:"수",menu:uniqueMenus[2]||"귀리죽 + 채소"},
+                        {day:"목",menu:uniqueMenus[3]||"현미밥 + 구이"},
+                        {day:"금",menu:uniqueMenus[4]||"보리밥 + 찌개"},
+                        {day:"토",menu:uniqueMenus[5]||"현미밥 + 볶음"},
+                        {day:"일",menu:uniqueMenus[0]||"잡곡밥 + 나물"},
+                      ];
+                      const planCards = weekPlan.map(p => "<div style=\'display:inline-flex;flex-direction:column;align-items:center;background:white;border:1px solid #f0e0e8;border-radius:12px;padding:8px 10px;min-width:80px\'><p style=\'font-size:11px;color:#d63384;font-weight:500\'>" + p.day + "요일</p><p style=\'font-size:12px;color:#1a1a2e;margin-top:2px;text-align:center\'>" + p.menu + "</p></div>").join("");
+                      const ytLinks = uniqueQueries.map(q => "<a href=\'https://www.youtube.com/results?search_query=" + encodeURIComponent(q) + "\' target=\'_blank\' style=\'display:flex;align-items:center;gap:8px;padding:10px 12px;background:white;border:1px solid #f0e0e8;border-radius:12px;text-decoration:none;margin-bottom:6px\'><span style=\'color:#ff0000;font-size:16px\'>&#9654;</span><div><p style=\'font-size:13px;color:#1a1a2e;font-weight:500\'>" + q + "</p><p style=\'font-size:11px;color:#888\'>유튜브에서 보기</p></div></a>").join("");
+                      if(result) result.innerHTML = "<div style=\'margin-top:4px\'><p style=\'font-size:12px;color:#888;margin-bottom:8px\'>" + input + " 재료로 만드는 고혈압 맞춤 일주일 식단</p><div style=\'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px\'>" + planCards + "</div><p style=\'font-size:12px;color:#888;margin-bottom:8px\'>유튜브 레시피</p>" + ytLinks + "</div>";
+                    }} className="rounded-xl px-4 py-2 text-sm font-medium text-white whitespace-nowrap" style={{background:"#d63384"}}>식단 만들기</button>
+                  </div>
+                  <div id="fridge-result"></div>
+                </div>
                   
 </div>
               <button

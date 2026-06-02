@@ -1543,30 +1543,81 @@ export default function Home() {
 
       {showPersonalDiagnosisModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6 backdrop-blur-sm">
+          <style>{`
+            @keyframes popIn {
+              0% { transform: scale(0.92); opacity: 0; }
+              60% { transform: scale(1.04); opacity: 1; }
+              100% { transform: scale(1); opacity: 1; }
+            }
+            @keyframes slideUp {
+              from { transform: translateY(18px); opacity: 0; }
+              to { transform: translateY(0); opacity: 1; }
+            }
+            .diag-modal-enter { animation: popIn 0.35s cubic-bezier(.22,1,.36,1) both; }
+            .diag-card-enter { animation: slideUp 0.4s cubic-bezier(.22,1,.36,1) both; }
+            .diag-radio-option input[type="radio"] { display: none; }
+            .diag-radio-option label {
+              display: flex; align-items: center; gap: 10px;
+              padding: 12px 16px; border-radius: 14px;
+              border: 2px solid #e8e8f0; background: white;
+              cursor: pointer; transition: all 0.18s cubic-bezier(.22,1,.36,1);
+              font-size: 14px; color: #1a1a2e; font-weight: 500;
+            }
+            .diag-radio-option input[type="radio"]:checked + label {
+              border-color: #d63384; background: linear-gradient(135deg,#fce4ec,#fff0f6);
+              transform: scale(1.03); box-shadow: 0 4px 16px rgba(214,51,132,0.15);
+              color: #d63384;
+            }
+            .diag-radio-option label .check-dot {
+              width: 18px; height: 18px; border-radius: 50%;
+              border: 2px solid #ddd; flex-shrink: 0; transition: all 0.18s;
+              display: flex; align-items: center; justify-content: center;
+            }
+            .diag-radio-option input[type="radio"]:checked + label .check-dot {
+              border-color: #d63384; background: #d63384;
+            }
+            .diag-radio-option input[type="radio"]:checked + label .check-dot::after {
+              content: ''; width: 6px; height: 6px; border-radius: 50%; background: white;
+            }
+            .diag-step-bar { height: 4px; border-radius: 999px; background: #f0e0e8; overflow: hidden; }
+            .diag-step-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#d63384,#c2185b); transition: width 0.4s cubic-bezier(.22,1,.36,1); }
+            .diag-section-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+          `}</style>
           <div
-            className="card-surface flex max-h-[min(92vh,44rem)] w-full max-w-2xl flex-col shadow-2xl"
+            className="diag-modal-enter flex max-h-[min(92vh,52rem)] w-full max-w-2xl flex-col shadow-2xl"
+            style={{background:"white",borderRadius:"28px",overflow:"hidden"}}
             role="dialog"
             aria-modal="true"
             aria-labelledby="personal-diagnosis-title"
           >
-            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-[var(--dark-border)] px-5 py-4">
-              <div>
-                <h3 id="personal-diagnosis-title" className="text-xl font-medium">
-                  개인진단 설문
-                </h3>
-                <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                  {KCHS_SEOUL_2024.surveyLabel} {KCHS_SEOUL_2024.sampleSize.toLocaleString("ko-KR")}명
-                  표본(치료율 {KCHS_SEOUL_2024.treatmentStandardizationRate}% / 관리 공백{" "}
-                  {KCHS_SEOUL_2024.managementGapRate}%)과 비교해 진단합니다.
-                </p>
+            <div className="shrink-0 px-6 pt-6 pb-4" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fff0f6 100%)"}}>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span style={{fontSize:"28px"}}>🩺</span>
+                    <h3 id="personal-diagnosis-title" className="text-xl font-bold" style={{color:"#1a1a2e"}}>
+                      나의 혈압 건강 진단
+                    </h3>
+                  </div>
+                  <p className="text-sm" style={{color:"#888"}}>
+                    23만 명 데이터와 비교해 맞춤 건강 결과를 드려요
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  style={{background:"white",border:"none",borderRadius:"999px",padding:"6px 14px",fontSize:"14px",color:"#888",cursor:"pointer",flexShrink:0}}
+                  onClick={() => setShowPersonalDiagnosisModal(false)}
+                >
+                  닫기
+                </button>
               </div>
-              <button
-                type="button"
-                className="shrink-0 rounded-full px-3 py-1.5 text-base text-[var(--text-secondary)] hover:bg-white/10"
-                onClick={() => setShowPersonalDiagnosisModal(false)}
-              >
-                닫기
-              </button>
+              <div className="diag-step-bar mt-4">
+                <div className="diag-step-fill" style={{width: personalDiagnosisStep === "result" ? "100%" : "50%"}} />
+              </div>
+              <div className="flex justify-between mt-1">
+                <span style={{fontSize:"11px",color:"#d63384",fontWeight:600}}>정보 입력</span>
+                <span style={{fontSize:"11px",color: personalDiagnosisStep === "result" ? "#d63384" : "#ccc",fontWeight:600}}>결과 확인</span>
+              </div>
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
@@ -1640,259 +1691,144 @@ export default function Home() {
                 </div>
               ) : (
                 <form
-                  className="space-y-6"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    submitPersonalDiagnosis();
-                  }}
+                  className="space-y-5"
+                  onSubmit={(e) => { e.preventDefault(); submitPersonalDiagnosis(); }}
                 >
-                  <p className="rounded-[12px] border border-[var(--dark-border)] bg-[var(--dark)]/60 px-3 py-2 text-base text-[var(--text-secondary)]">
-                    응답은 {KCHS_SEOUL_2024.sampleSize.toLocaleString("ko-KR")}명 지역사회건강조사 집계와
-                    대조해, 치료 연계({KCHS_SEOUL_2024.treatmentStandardizationRate}%)·관리 공백(
-                    {KCHS_SEOUL_2024.managementGapRate}%) 군에 가까운지 판단합니다.
-                  </p>
-                  <fieldset className="space-y-3">
-                    <legend className="mb-1 text-sm font-medium text-white">기본 정보</legend>
-                    <div>
-                      <label htmlFor="pd-name" className="mb-1 block text-sm text-[var(--text-secondary)]">
-                        이름
-                      </label>
-                      <input
-                        id="pd-name"
-                        type="text"
-                        required
-                        maxLength={40}
-                        value={personalDiagnosisForm.name}
-                        onChange={(e) =>
-                          setPersonalDiagnosisForm((f) => ({ ...f, name: e.target.value }))
-                        }
-                        className={formFieldClass}
-                        placeholder="홍길동"
-                      />
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-2">
+                  {/* 기본 정보 카드 */}
+                  <div className="diag-card-enter" style={{animationDelay:"0.05s",background:"white",borderRadius:"20px",padding:"20px",border:"1px solid #f0e0e8",boxShadow:"0 2px 12px rgba(214,51,132,0.06)"}}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="diag-section-icon" style={{background:"#fce4ec"}}>👤</div>
                       <div>
-                        <span className="mb-1 block text-sm text-[var(--text-secondary)]">성별</span>
-                        <div className="flex flex-wrap gap-2">
-                          {(
-                            [
-                              ["male", "남"],
-                              ["female", "여"],
-                              ["other", "기타"],
-                            ] as const
-                          ).map(([value, label]) => (
-                            <label
-                              key={value}
-                              className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm ${
-                                personalDiagnosisForm.gender === value
-                                  ? "border-[var(--stat-blue)] bg-[var(--seoul-blue)]/25 text-white"
-                                  : "border-[var(--dark-border)] text-[var(--text-secondary)]"
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                name="pd-gender"
-                                className="sr-only"
-                                checked={personalDiagnosisForm.gender === value}
-                                onChange={() =>
-                                  setPersonalDiagnosisForm((f) => ({ ...f, gender: value }))
-                                }
-                              />
-                              {label}
-                            </label>
-                          ))}
-                        </div>
+                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>기본 정보</p>
+                        <p style={{fontSize:"12px",color:"#aaa"}}>이름, 성별, 나이를 알려주세요</p>
                       </div>
+                    </div>
+                    <div className="space-y-3">
                       <div>
-                        <label htmlFor="pd-age" className="mb-1 block text-sm text-[var(--text-secondary)]">
-                          나이
-                        </label>
-                        <input
-                          id="pd-age"
-                          type="number"
-                          required
-                          min={1}
-                          max={120}
-                          value={personalDiagnosisForm.age}
-                          onChange={(e) =>
-                            setPersonalDiagnosisForm((f) => ({ ...f, age: e.target.value }))
-                          }
-                          className={formFieldClass}
-                          placeholder="예: 58"
+                        <label htmlFor="pd-name" style={{fontSize:"13px",color:"#888",display:"block",marginBottom:"6px"}}>이름</label>
+                        <input id="pd-name" type="text" required maxLength={40}
+                          value={personalDiagnosisForm.name}
+                          onChange={(e) => setPersonalDiagnosisForm((f) => ({ ...f, name: e.target.value }))}
+                          style={{width:"100%",borderRadius:"12px",border:"1.5px solid #f0e0e8",padding:"10px 14px",fontSize:"14px",color:"#1a1a2e",outline:"none",boxSizing:"border-box"}}
+                          placeholder="홍길동"
                         />
                       </div>
-                    </div>
-                  </fieldset>
-
-                  <fieldset className="space-y-3">
-                    <legend className="mb-1 text-sm font-medium text-white">건강·관리 정보</legend>
-                    <div>
-                      <span className="mb-1 block text-sm text-[var(--text-secondary)]">
-                        고혈압 진단 유무
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {(
-                          [
-                            ["yes", "진단 있음"],
-                            ["no", "진단 없음"],
-                            ["unsure", "잘 모름"],
-                          ] as const
-                        ).map(([value, label]) => (
-                          <label
-                            key={value}
-                            className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm ${
-                              personalDiagnosisForm.hypertensionDiagnosed === value
-                                ? "border-[var(--stat-blue)] bg-[var(--seoul-blue)]/25 text-white"
-                                : "border-[var(--dark-border)] text-[var(--text-secondary)]"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="pd-diagnosed"
-                              className="sr-only"
-                              checked={personalDiagnosisForm.hypertensionDiagnosed === value}
-                              onChange={() =>
-                                setPersonalDiagnosisForm((f) => ({
-                                  ...f,
-                                  hypertensionDiagnosed: value,
-                                }))
-                              }
-                            />
-                            {label}
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="pd-meds" className="mb-1 block text-sm text-[var(--text-secondary)]">
-                        먹고 있는 약 (없으면 비워 두세요)
-                      </label>
-                      <textarea
-                        id="pd-meds"
-                        rows={2}
-                        maxLength={300}
-                        value={personalDiagnosisForm.medications}
-                        onChange={(e) =>
-                          setPersonalDiagnosisForm((f) => ({ ...f, medications: e.target.value }))
-                        }
-                        className={formFieldClass}
-                        placeholder="예: 암로디핀 5mg 1일 1회"
-                      />
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <label htmlFor="pd-weight" className="mb-1 block text-sm text-[var(--text-secondary)]">
-                          몸무게 (kg)
-                        </label>
-                        <input
-                          id="pd-weight"
-                          type="number"
-                          min={20}
-                          max={300}
-                          step={0.1}
-                          value={personalDiagnosisForm.weightKg}
-                          onChange={(e) =>
-                            setPersonalDiagnosisForm((f) => ({ ...f, weightKg: e.target.value }))
-                          }
-                          className={formFieldClass}
-                          placeholder="예: 72.5"
-                        />
-                      </div>
-                      <div>
-                        <span className="mb-1 block text-sm text-[var(--text-secondary)]">
-                          인바디 어플 연계
-                        </span>
-                        <div className="flex flex-col gap-2">
-                          {(
-                            [
-                              ["yes", "연계 중"],
-                              ["planned", "연계 예정"],
-                              ["no", "미연계"],
-                            ] as const
-                          ).map(([value, label]) => (
-                            <label
-                              key={value}
-                              className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm ${
-                                personalDiagnosisForm.inbodyLinked === value
-                                  ? "border-[var(--stat-blue)] bg-[var(--seoul-blue)]/25 text-white"
-                                  : "border-[var(--dark-border)] text-[var(--text-secondary)]"
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                name="pd-inbody"
-                                className="sr-only"
-                                checked={personalDiagnosisForm.inbodyLinked === value}
-                                onChange={() =>
-                                  setPersonalDiagnosisForm((f) => ({ ...f, inbodyLinked: value }))
-                                }
-                              />
-                              {label}
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </fieldset>
-
-                  <fieldset className="space-y-3">
-                    <legend className="mb-1 text-sm font-medium text-white">
-                      고혈압 기본 지식 설문
-                    </legend>
-                    <p className="text-sm text-[var(--text-muted)]">
-                      각 문항에 대해 알고 계신 정도를 선택해 주세요.
-                    </p>
-                    <ul className="space-y-4">
-                      {HYPERTENSION_KNOWLEDGE_QUESTIONS.map((q, index) => (
-                        <li key={q.id} className="card-surface p-3">
-                          <p className="mb-2 text-sm text-white">
-                            {index + 1}. {q.question}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {(
-                              [
-                                ["yes", "알고 있음"],
-                                ["unsure", "잘 모름"],
-                                ["no", "모름"],
-                              ] as const
-                            ).map(([value, label]) => (
-                              <label
-                                key={value}
-                                className={`cursor-pointer rounded-full border px-3 py-1 text-sm ${
-                                  personalDiagnosisForm.knowledgeAnswers[q.id] === value
-                                    ? "border-[var(--accent)]/50 bg-[var(--accent)]/15 text-white"
-                                    : "border-[var(--dark-border)] text-[var(--text-secondary)]"
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name={`pd-knowledge-${q.id}`}
-                                  className="sr-only"
-                                  checked={personalDiagnosisForm.knowledgeAnswers[q.id] === value}
-                                  onChange={() =>
-                                    setPersonalDiagnosisForm((f) => ({
-                                      ...f,
-                                      knowledgeAnswers: {
-                                        ...f.knowledgeAnswers,
-                                        [q.id]: value,
-                                      },
-                                    }))
-                                  }
-                                />
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
+                        <div>
+                          <p style={{fontSize:"13px",color:"#888",marginBottom:"8px"}}>성별</p>
+                          <div style={{display:"flex",gap:"8px"}}>
+                            {([["male","남 👨"],["female","여 👩"],["other","기타"]] as const).map(([value,label]) => (
+                              <button key={value} type="button"
+                                onClick={() => setPersonalDiagnosisForm((f) => ({ ...f, gender: value }))}
+                                style={{flex:1,padding:"8px 4px",borderRadius:"12px",border: personalDiagnosisForm.gender===value ? "2px solid #d63384" : "2px solid #f0e0e8",background: personalDiagnosisForm.gender===value ? "linear-gradient(135deg,#fce4ec,#fff0f6)" : "white",color: personalDiagnosisForm.gender===value ? "#d63384" : "#888",fontWeight: personalDiagnosisForm.gender===value ? 700 : 400,fontSize:"13px",cursor:"pointer",transition:"all 0.18s",transform: personalDiagnosisForm.gender===value ? "scale(1.05)" : "scale(1)"}}>
                                 {label}
-                              </label>
+                              </button>
                             ))}
                           </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </fieldset>
+                        </div>
+                        <div>
+                          <label htmlFor="pd-age" style={{fontSize:"13px",color:"#888",display:"block",marginBottom:"6px"}}>나이</label>
+                          <input id="pd-age" type="number" required min={1} max={120}
+                            value={personalDiagnosisForm.age}
+                            onChange={(e) => setPersonalDiagnosisForm((f) => ({ ...f, age: e.target.value }))}
+                            style={{width:"100%",borderRadius:"12px",border:"1.5px solid #f0e0e8",padding:"10px 14px",fontSize:"14px",color:"#1a1a2e",outline:"none",boxSizing:"border-box"}}
+                            placeholder="예: 58"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                  <button
-                    type="submit"
-                    className="w-full rounded-full bg-[var(--seoul-blue)] py-3 text-base font-medium text-white hover:bg-[var(--seoul-blue-light)]"
-                  >
-                    개인진단 결과 보기
+                  {/* 건강 정보 카드 */}
+                  <div className="diag-card-enter" style={{animationDelay:"0.12s",background:"white",borderRadius:"20px",padding:"20px",border:"1px solid #f0e0e8",boxShadow:"0 2px 12px rgba(214,51,132,0.06)"}}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="diag-section-icon" style={{background:"#e8f5e9"}}>💊</div>
+                      <div>
+                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>건강 · 관리 정보</p>
+                        <p style={{fontSize:"12px",color:"#aaa"}}>현재 건강 상태를 선택해주세요</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <p style={{fontSize:"13px",color:"#888",marginBottom:"8px"}}>고혈압 진단 유무</p>
+                        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"8px"}}>
+                          {([["yes","✅ 진단 있음"],["no","❌ 진단 없음"],["unsure","🤔 잘 모름"]] as const).map(([value,label]) => (
+                            <button key={value} type="button"
+                              onClick={() => setPersonalDiagnosisForm((f) => ({ ...f, hypertensionDiagnosed: value }))}
+                              style={{padding:"10px 8px",borderRadius:"14px",border: personalDiagnosisForm.hypertensionDiagnosed===value ? "2px solid #d63384" : "2px solid #f0e0e8",background: personalDiagnosisForm.hypertensionDiagnosed===value ? "linear-gradient(135deg,#fce4ec,#fff0f6)" : "white",color: personalDiagnosisForm.hypertensionDiagnosed===value ? "#d63384" : "#888",fontWeight: personalDiagnosisForm.hypertensionDiagnosed===value ? 700 : 400,fontSize:"12px",cursor:"pointer",transition:"all 0.18s",transform: personalDiagnosisForm.hypertensionDiagnosed===value ? "scale(1.04)" : "scale(1)"}}>
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
+                        <div>
+                          <label htmlFor="pd-weight" style={{fontSize:"13px",color:"#888",display:"block",marginBottom:"6px"}}>⚖️ 몸무게 (kg)</label>
+                          <input id="pd-weight" type="number" min={20} max={300} step={0.1}
+                            value={personalDiagnosisForm.weightKg}
+                            onChange={(e) => setPersonalDiagnosisForm((f) => ({ ...f, weightKg: e.target.value }))}
+                            style={{width:"100%",borderRadius:"12px",border:"1.5px solid #f0e0e8",padding:"10px 14px",fontSize:"14px",color:"#1a1a2e",outline:"none",boxSizing:"border-box"}}
+                            placeholder="예: 72.5"
+                          />
+                        </div>
+                        <div>
+                          <p style={{fontSize:"13px",color:"#888",marginBottom:"8px"}}>📱 인바디 연계</p>
+                          <div style={{display:"flex",flexDirection:"column",gap:"6px"}}>
+                            {([["yes","연계 중"],["planned","예정"],["no","미연계"]] as const).map(([value,label]) => (
+                              <button key={value} type="button"
+                                onClick={() => setPersonalDiagnosisForm((f) => ({ ...f, inbodyLinked: value }))}
+                                style={{padding:"7px 10px",borderRadius:"10px",border: personalDiagnosisForm.inbodyLinked===value ? "2px solid #d63384" : "2px solid #f0e0e8",background: personalDiagnosisForm.inbodyLinked===value ? "#fce4ec" : "white",color: personalDiagnosisForm.inbodyLinked===value ? "#d63384" : "#888",fontSize:"12px",cursor:"pointer",fontWeight: personalDiagnosisForm.inbodyLinked===value ? 700 : 400,transition:"all 0.18s",textAlign:"left"}}>
+                                {personalDiagnosisForm.inbodyLinked===value ? "✓ " : ""}{label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="pd-meds" style={{fontSize:"13px",color:"#888",display:"block",marginBottom:"6px"}}>💉 복용 중인 약 (없으면 생략)</label>
+                        <textarea id="pd-meds" rows={2} maxLength={300}
+                          value={personalDiagnosisForm.medications}
+                          onChange={(e) => setPersonalDiagnosisForm((f) => ({ ...f, medications: e.target.value }))}
+                          style={{width:"100%",borderRadius:"12px",border:"1.5px solid #f0e0e8",padding:"10px 14px",fontSize:"14px",color:"#1a1a2e",outline:"none",resize:"none",boxSizing:"border-box"}}
+                          placeholder="예: 암로디핀 5mg 1일 1회"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 지식 설문 카드 */}
+                  <div className="diag-card-enter" style={{animationDelay:"0.2s",background:"white",borderRadius:"20px",padding:"20px",border:"1px solid #f0e0e8",boxShadow:"0 2px 12px rgba(214,51,132,0.06)"}}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="diag-section-icon" style={{background:"#e3f2fd"}}>🧠</div>
+                      <div>
+                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>고혈압 지식 퀴즈</p>
+                        <p style={{fontSize:"12px",color:"#aaa"}}>알고 계신 만큼 솔직하게 선택해주세요</p>
+                      </div>
+                    </div>
+                    <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
+                      {HYPERTENSION_KNOWLEDGE_QUESTIONS.map((q, index) => (
+                        <div key={q.id} style={{background:"#fafafa",borderRadius:"16px",padding:"14px 16px",border:"1px solid #f5e6ef"}}>
+                          <p style={{fontSize:"13px",color:"#1a1a2e",fontWeight:600,marginBottom:"10px",lineHeight:"1.5"}}>
+                            <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:"22px",height:"22px",borderRadius:"50%",background:"#fce4ec",color:"#d63384",fontSize:"11px",fontWeight:700,marginRight:"8px",flexShrink:0}}>{index+1}</span>
+                            {q.question}
+                          </p>
+                          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"6px"}}>
+                            {([["yes","😊 알아요"],["unsure","🤔 애매해요"],["no","😅 몰라요"]] as const).map(([value,label]) => (
+                              <button key={value} type="button"
+                                onClick={() => setPersonalDiagnosisForm((f) => ({ ...f, knowledgeAnswers: { ...f.knowledgeAnswers, [q.id]: value } }))}
+                                style={{padding:"8px 6px",borderRadius:"12px",border: personalDiagnosisForm.knowledgeAnswers[q.id]===value ? "2px solid #d63384" : "2px solid #edd",background: personalDiagnosisForm.knowledgeAnswers[q.id]===value ? "linear-gradient(135deg,#fce4ec,#fff0f6)" : "white",color: personalDiagnosisForm.knowledgeAnswers[q.id]===value ? "#d63384" : "#888",fontSize:"12px",cursor:"pointer",fontWeight: personalDiagnosisForm.knowledgeAnswers[q.id]===value ? 700 : 400,transition:"all 0.18s cubic-bezier(.22,1,.36,1)",transform: personalDiagnosisForm.knowledgeAnswers[q.id]===value ? "scale(1.05)" : "scale(1)"}}>
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button type="submit"
+                    style={{width:"100%",padding:"16px",borderRadius:"16px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(214,51,132,0.35)",letterSpacing:"0.5px"}}>
+                    🔍 나의 혈압 건강 진단 받기
                   </button>
                 </form>
               )}

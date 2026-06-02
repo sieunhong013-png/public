@@ -1112,38 +1112,8 @@ export default function Home() {
         )}
 
         {showHospitalList && contentFilter === "walking" && (
-          <section className="animate-fade-up mb-6">
-            <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <h2 className="text-xl font-medium">산책하기 좋은 거리 · 산책로</h2>
-              <span className="text-sm text-[var(--text-secondary)]">추천 코스 {WALKING_ROUTES.length}곳</span>
-            </div>
-            <p className="mb-4 text-sm text-[var(--text-secondary)]">
-              고혈압 관리에는 주 5회, 30분 이상 가볍게 걷기가 권장됩니다. 완만하고 평지 위주 코스부터 시작하세요.
-            </p>
-            <ul className="flex flex-col gap-3">
-              {WALKING_ROUTES.map((route) => (
-                <li
-                  key={route.id}
-                  className="card-surface p-4 transition-all duration-200 hover:translate-x-1 hover:border-[var(--stat-blue)]/50"
-                >
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-white">{route.name}</p>
-                      <p className="mt-1 text-sm text-[var(--text-secondary)]">{route.district}</p>
-                      <p className="mt-2 text-sm text-[var(--text-secondary)]">{route.tip}</p>
-                    </div>
-                    <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col sm:items-end">
-                      <span className="rounded-full border border-[var(--dark-border)] bg-white/5 px-2.5 py-0.5 text-sm tabular-nums">
-                        약 {route.distanceKm}km
-                      </span>
-                      <span className="rounded-full border border-[var(--dark-border)] bg-white/5 px-2.5 py-0.5 text-sm text-[var(--text-secondary)]">
-                        {route.durationMin}분 · {route.surface}
-                      </span>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          <section className="animate-fade-up mb-6 space-y-4">
+
                                 <div className="mt-6 space-y-4">
                   <div className="rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
                     <div className="flex items-center justify-between mb-4">

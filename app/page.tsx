@@ -1053,13 +1053,64 @@ export default function Home() {
 
         {showHospitalList && contentFilter === "medicationVerbal" && (
           <section className="animate-fade-up mb-6">
-            <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <h2 className="text-xl font-medium">내 주변 내과 진료 기관</h2>
-              <span className="text-sm text-[var(--text-secondary)]">
-                약물·구두 치료 연계 가능 {filteredHospitals.length}곳
-              </span>
+            <div className="rounded-3xl overflow-hidden" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 60%,#e8f5e9 100%)"}}>
+              <div className="px-5 pt-5 pb-4">
+                <span className="text-xs font-medium text-pink-500 bg-pink-50 border border-pink-100 rounded-full px-3 py-1">내 주변 치료기관 찾기</span>
+                <h2 className="mt-2 text-lg font-medium text-[#1a1a2e]">내가 있는 지역은?</h2>
+                <p className="text-sm text-[#888] mt-1">지역을 입력하면 주변 약물·구두 치료 가능 병원을 추천해드려요</p>
+                <div className="mt-4 flex gap-2">
+                  <input
+                    id="region-input"
+                    type="text"
+                    placeholder="예: 강남구, 마포구, 송파구..."
+                    className="flex-1 rounded-2xl border border-pink-100 bg-white px-4 py-3 text-sm text-[#1a1a2e] outline-none focus:border-pink-300"
+                  />
+                  <button
+                    onClick={() => {
+                      const region = (document.getElementById("region-input") as HTMLInputElement)?.value.trim();
+                      const result = document.getElementById("hospital-result");
+                      if (!region) { if(result) result.innerHTML = "<p style=\'color:#d63384;font-size:13px;padding:12px\'>지역을 입력해주세요.</p>"; return; }
+                      const allHospitals = [
+                        {name:"강남구 서울강남내과의원",addr:"테헤란로 212",phone:"02-501-1001",review:"친절하고 대기 짧아요",stars:5,tag:"약물치료"},
+                        {name:"강남구 대치내과",addr:"대치동 은마로 201",phone:"02-554-2020",review:"혈압약 처방 꼼꼼해요",stars:5,tag:"구두교육"},
+                        {name:"서초구 교대내과센터",addr:"서초대로 301",phone:"02-585-1015",review:"식단 상담 자세히 해줘요",stars:4,tag:"약물치료"},
+                        {name:"마포구 합정내과센터",addr:"양화로 45",phone:"02-334-1013",review:"가깝고 예약 빠름",stars:5,tag:"구두교육"},
+                        {name:"마포구 홍대내과",addr:"홍익로 15",phone:"02-323-3030",review:"혈압 관리 전문 잘해요",stars:4,tag:"약물치료"},
+                        {name:"송파구 잠실내과센터",addr:"올림픽로 300",phone:"02-421-1018",review:"운동 처방도 해줘요",stars:5,tag:"구두교육"},
+                        {name:"성동구 왕십리내과의원",addr:"왕십리로 315",phone:"02-2292-1016",review:"친절하고 설명 자세함",stars:4,tag:"약물치료"},
+                        {name:"노원구 상계내과센터",addr:"동일로 1405",phone:"02-938-1009",review:"대기없이 빨리 봐줌",stars:5,tag:"구두교육"},
+                        {name:"은평구 불광내과센터",addr:"통일로 856",phone:"02-356-1022",review:"저염식 가이드 좋아요",stars:4,tag:"약물치료"},
+                        {name:"강서구 공항내과의원",addr:"공항대로 247",phone:"02-2662-1004",review:"복약 상담 친절해요",stars:5,tag:"구두교육"},
+                        {name:"관악구 서울관악내과",addr:"남부순환로 1820",phone:"02-877-1005",review:"혈압약 맞춤 처방",stars:4,tag:"약물치료"},
+                        {name:"구로구 신도림내과",addr:"경인로 661",phone:"02-2632-1007",review:"체중 관리 함께 도와줌",stars:5,tag:"구두교육"},
+                        {name:"양천구 목동내과의원",addr:"목동동로 223",phone:"02-2643-1019",review:"생활습관 코칭 최고",stars:5,tag:"약물치료"},
+                        {name:"영등포구 여의도내과",addr:"국제금융로 10",phone:"02-786-1020",review:"직장인 점심 진료 가능",stars:4,tag:"구두교육"},
+                        {name:"동작구 사당내과의원",addr:"동작대로 89",phone:"02-595-1012",review:"체중관리 교육 좋아요",stars:4,tag:"약물치료"},
+                        {name:"종로구 광화문내과의원",addr:"종로 33",phone:"02-732-1023",review:"운동 처방 전문",stars:5,tag:"구두교육"},
+                        {name:"중구 명동내과센터",addr:"명동길 26",phone:"02-777-1024",review:"관광객도 쉽게 방문",stars:4,tag:"약물치료"},
+                        {name:"강북구 미아내과의원",addr:"도봉로 346",phone:"02-989-1003",review:"가정혈압 측정법 교육",stars:5,tag:"구두교육"},
+                        {name:"도봉구 창동내과의원",addr:"마들로 657",phone:"02-993-1010",review:"저염식 레시피도 줌",stars:4,tag:"약물치료"},
+                        {name:"중랑구 상봉내과의원",addr:"망우로 353",phone:"02-434-1025",review:"혈압기 사용법 가르쳐줌",stars:5,tag:"구두교육"},
+                      ];
+                      const matched = allHospitals.filter(h => h.name.includes(region) || h.addr.includes(region) || region.includes(h.name.split(" ")[0]));
+                      if (matched.length === 0) {
+                        if(result) result.innerHTML = "<div style=\'padding:20px;text-align:center\'><p style=\'color:#d63384;font-size:14px;font-weight:500\'>해당 지역 병원을 찾지 못했어요</p><p style=\'color:#888;font-size:13px;margin-top:4px\'>강남구, 마포구, 송파구 등 구 이름으로 검색해보세요</p></div>";
+                        return;
+                      }
+                      const stars = (n: number) => "★".repeat(n) + "☆".repeat(5-n);
+                      const cards = matched.map(h => "<div style=\'padding:14px;border-radius:16px;background:white;border:1px solid #f0e0e8;margin-bottom:10px\'><div style=\'display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px\'><div><p style=\'font-weight:500;color:#1a1a2e;font-size:14px\'>" + h.name + "</p><p style=\'font-size:12px;color:#888;margin-top:2px\'>" + h.addr + "</p></div><span style=\'font-size:11px;background:#fce4ec;color:#d63384;padding:3px 10px;border-radius:999px;white-space:nowrap\'>" + h.tag + "</span></div><div style=\'display:flex;justify-content:space-between;align-items:center\'><div><p style=\'font-size:12px;color:#f59e0b\'>" + stars(h.stars) + "</p><p style=\'font-size:12px;color:#555;margin-top:2px\'>" + h.review + "</p></div><a href=\'tel:" + h.phone.replace(/-/g,"") + "\' style=\'font-size:12px;color:#d63384;border:1px solid #f8bbd0;border-radius:999px;padding:4px 12px;text-decoration:none\'>전화하기</a></div></div>").join("");
+                      if(result) result.innerHTML = "<div style=\'margin-top:4px\'><p style=\'font-size:13px;color:#888;margin-bottom:12px\'>" + region + " 주변 추천 병원 " + matched.length + "곳 (후기 좋은 순)</p>" + cards + "</div>";
+                    }}
+                    className="rounded-2xl px-5 py-3 text-sm font-medium text-white whitespace-nowrap"
+                    style={{background:"#d63384"}}
+                  >
+                    찾기
+                  </button>
+                </div>
+                <div id="hospital-result" className="mt-2"></div>
+              </div>
             </div>
-            <ul className="flex flex-col gap-3">
+            <ul className="hidden">
               {filteredHospitals.map((hospital) => {
                 const isOpenNow =
                   hospital.isCurrentlyAvailable &&

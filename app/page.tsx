@@ -1183,11 +1183,48 @@ export default function Home() {
                       const time = (document.getElementById("ai-time") as HTMLSelectElement)?.value;
                       const result = document.getElementById("ai-result");
                       if (!age || !bp) { if(result) result.innerHTML = "<p style=\'color:#d63384;font-size:13px\'>나이와 혈압을 입력해주세요.</p>"; return; }
-                      let course = "", tip = "";
-                      if (bp >= 140) { course = "한강 난지 수변공원 (평지, 2.1km)"; tip = "혈압이 높으니 평지 위주 가벼운 코스를 추천합니다. 준비운동 5분 필수!"; }
-                      else if (bp >= 130) { course = "서울숲 둘레길 (완만한 언덕, 3.2km)"; tip = "완만한 코스로 심박수를 서서히 올려주세요."; }
-                      else { course = "북한산 둘레길 1구간 (숲길, 4.5km)"; tip = "혈압이 안정적이에요! 숲길 파워워킹으로 심폐 기능을 강화해보세요."; }
-                      if(result) result.innerHTML = "<div style=\'margin-top:12px;padding:16px;border-radius:16px;background:#fce4ec;border:1px solid #f8bbd0\'><p style=\'font-weight:500;color:#c2185b;margin-bottom:6px;font-size:14px\'>" + course + "</p><p style=\'font-size:13px;color:#888;margin-bottom:4px\'>" + tip + "</p><p style=\'font-size:12px;color:#d63384\'>예상: " + time + "분</p></div>";
+                      const ageNum = parseInt(age);
+                      const level = (document.getElementById("ai-level") as HTMLSelectElement)?.value;
+                      const timeNum = parseInt(time);
+                      type Course = {name:string;loc:string;dist:string;desc:string;tag:string};
+                      const flat:Course[] = [
+                        {name:"한강공원 여의도 북단",loc:"서울 영등포",dist:"3km",desc:"완전 평지, 자전거도로와 분리돼 안전하게 걷기 좋아요. 벤치도 많아요.",tag:"초보"},
+                        {name:"청계천 광통교~세운교",loc:"서울 종로·중구",dist:"2.4km",desc:"도심 속 하천길, 그늘 많고 중간 쉼터 풍부. 혈압 높을 때 최적.",tag:"초보"},
+                        {name:"올림픽공원 평지 순환",loc:"서울 송파",dist:"3.5km",desc:"넓은 잔디광장, 완전 평지. 스트레칭 후 천천히 걷기에 완벽.",tag:"초보"},
+                        {name:"석촌호수 둘레길",loc:"서울 송파",dist:"2.7km",desc:"호수 바람이 시원해요. 사계절 언제나 쾌적하게 걸을 수 있어요.",tag:"초보"},
+                        {name:"양재천 산책로",loc:"서울 강남·서초",dist:"4km",desc:"평지 하천길, 봄엔 벚꽃 명소. 중간 중간 운동 기구도 있어요.",tag:"초보"},
+                      ];
+                      const moderate:Course[] = [
+                        {name:"서울숲 둘레길",loc:"서울 성동",dist:"3.2km",desc:"완만한 오르막 포함, 숲 속 피톤치드로 스트레스 해소에도 좋아요.",tag:"중급"},
+                        {name:"남산 순환로 (하단)",loc:"서울 중구·용산",dist:"4km",desc:"완만한 경사, 도심 전망 최고. 케이블카 탑승지점까지 걸어도 OK.",tag:"중급"},
+                        {name:"북악산 성곽길 (하단부)",loc:"서울 종로",dist:"3.5km",desc:"역사적인 성곽을 따라 걷는 코스. 경사 완만한 하단부만 추천.",tag:"중급"},
+                        {name:"관악산 둘레길",loc:"서울 관악",dist:"5km",desc:"산 중턱 둘레길로 험하지 않아요. 도시 속 자연을 느끼기 좋아요.",tag:"중급"},
+                        {name:"아차산 생태공원",loc:"서울 광진",dist:"4.5km",desc:"완만한 숲길, 한강 조망 포인트 있음. 초보~중급 딱 맞는 코스.",tag:"중급"},
+                        {name:"용마산~망우산 둘레길",loc:"서울 중랑",dist:"5.5km",desc:"능선 따라 걷는 숲길, 중간 쉬는 곳 많아 무리 없이 걸 수 있어요.",tag:"중급"},
+                      ];
+                      const hard:Course[] = [
+                        {name:"북한산 둘레길 1구간",loc:"서울·경기",dist:"4.5km",desc:"숲길 파워워킹, 심폐 기능 강화에 최적. 혈압 안정적일 때 추천.",tag:"상급"},
+                        {name:"도봉산 도봉탐방지원센터~마당바위",loc:"서울 도봉",dist:"4km",desc:"완만한 계곡길, 여름엔 시원하고 가을 단풍 명소. 중간 하산 가능.",tag:"상급"},
+                        {name:"수락산 기차바위 코스",loc:"서울 노원·경기 의정부",dist:"6km",desc:"능선 조망 훌륭, 바위 지대 있어 집중력 필요. 체력 충분할 때 도전.",tag:"상급"},
+                        {name:"청계산 원터골~매봉",loc:"경기 성남·과천",dist:"6.5km",desc:"서울 근교 인기 산, 주말 트레킹 명소. 정상 조망 탁월.",tag:"상급"},
+                        {name:"관악산 연주대 코스",loc:"서울 관악·경기 안양",dist:"7km",desc:"서울 대표 도심 산, 정상 연주대까지 도전. 체력 충분해야 OK.",tag:"상급"},
+                        {name:"설악산 권금성 케이블카~울산바위",loc:"강원 속초",dist:"4km",desc:"전국 최고 절경. 당일 여행 코스로 추천. 혈압 안정 후 도전하세요.",tag:"전국"},
+                        {name:"지리산 둘레길 1구간",loc:"전남 구례",dist:"11km",desc:"전국 최고의 둘레길. 완만하고 숲 깊어 힐링 만점. 1박2일 추천.",tag:"전국"},
+                        {name:"한라산 영실 코스",loc:"제주",dist:"6km",desc:"제주 오름 너머 영실 기암절벽. 혈압 안정 후 도전. 절경 보장.",tag:"전국"},
+                      ];
+                      let candidates:Course[] = [];
+                      if (bp >= 150) { candidates = flat.slice(0,3); }
+                      else if (bp >= 140) { candidates = flat; }
+                      else if (bp >= 130) { candidates = level==="easy" ? flat : [...flat.slice(0,2), ...moderate.slice(0,3)]; }
+                      else if (bp >= 120) { candidates = level==="easy" ? flat : level==="medium" ? moderate : [...moderate, ...hard.slice(0,3)]; }
+                      else { candidates = level==="easy" ? flat : level==="medium" ? moderate : hard; }
+                      if (timeNum <= 20) { candidates = candidates.slice(0,2); }
+                      else if (timeNum <= 30) { candidates = candidates.slice(0,3); }
+                      else if (timeNum <= 60) { candidates = candidates.slice(0,4); }
+                      const tagColor:Record<string,string> = {초보:"#d63384",중급:"#2d6a4f",상급:"#1565c0",전국:"#b45309"};
+                      const cards = candidates.map(c => "<div style=\'padding:12px;border-radius:12px;background:white;border:1px solid #f0e0e8;margin-bottom:8px\'><div style=\'display:flex;justify-content:space-between;align-items:center;margin-bottom:4px\'><p style=\'font-weight:500;color:#1a1a2e;font-size:14px\'>" + c.name + "</p><span style=\'font-size:11px;background:#fce4ec;color:" + (tagColor[c.tag]||"#888") + ";padding:2px 8px;border-radius:999px\'>" + c.tag + " · " + c.dist + "</span></div><p style=\'font-size:12px;color:#888;margin-bottom:2px\'>" + c.loc + "</p><p style=\'font-size:13px;color:#555\'>" + c.desc + "</p></div>").join("");
+                      const bpMsg = bp >= 150 ? "혈압이 많이 높아요. 평지 가벼운 코스만 추천해요." : bp >= 140 ? "혈압이 높으니 평지 위주로 걸어요." : bp >= 130 ? "혈압이 약간 높아요. 무리하지 마세요." : "혈압이 안정적이에요! 다양한 코스에 도전해보세요.";
+                      if(result) result.innerHTML = "<div style=\'margin-top:12px\'><div style=\'padding:10px 14px;border-radius:12px;background:#fce4ec;border:1px solid #f8bbd0;margin-bottom:12px\'><p style=\'font-size:13px;color:#c2185b;font-weight:500\'>" + bpMsg + "</p><p style=\'font-size:12px;color:#888;margin-top:2px\'>나이 " + ageNum + "세 · 수축기 " + bp + "mmHg · " + time + "분 기준 추천 코스 " + candidates.length + "개</p></div>" + cards + "</div>";
                     }} className="w-full py-2.5 rounded-xl text-white text-sm font-medium" style={{background:"#d63384"}}>AI 코스 추천받기</button>
                     <div id="ai-result"></div>
                   </div>

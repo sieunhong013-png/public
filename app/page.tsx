@@ -1237,16 +1237,47 @@ export default function Home() {
         )}
 
         {showMap && (
-          <section className="card-surface animate-fade-up overflow-hidden p-4">
-            <h2 className="mb-3 text-lg font-medium">서울 지도</h2>
-            <div className="overflow-hidden rounded-[8px] bg-black/20">
-              <Image
-                src="/seoul map.png"
-                alt="서울 지도"
-                width={1200}
-                height={800}
-                className="h-auto w-full object-contain"
-              />
+          <section className="animate-fade-up overflow-hidden">
+            <div className="rounded-3xl overflow-hidden" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 50%,#e8f5e9 100%)"}}>
+              <div className="px-5 pt-5 pb-3 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-medium text-pink-500 bg-pink-50 border border-pink-100 rounded-full px-3 py-1">서울시 치료율 현황</span>
+                  <h2 className="mt-2 text-lg font-medium text-[#1a1a2e]">서울 지도</h2>
+                  <p className="text-sm text-[#888] mt-1">구별 고혈압 진단 경험자 치료율 (2024)</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-medium text-[#d63384]">92.3%</p>
+                  <p className="text-xs text-[#888]">평균 치료율</p>
+                </div>
+              </div>
+              <div className="flex gap-2 px-5 pb-3 flex-wrap">
+                <span className="text-xs px-2.5 py-1 rounded-full bg-white border border-pink-100 text-[#888]">강남·서초 96%</span>
+                <span className="text-xs px-2.5 py-1 rounded-full bg-white border border-pink-100 text-[#888]">노원·도봉 94%</span>
+                <span className="text-xs px-2.5 py-1 rounded-full bg-white border border-pink-100 text-[#888]">관악·금천 82%</span>
+              </div>
+              <div className="mx-4 mb-4 overflow-hidden rounded-2xl shadow-sm border border-white/60">
+                <Image
+                  src="/seoul map.png"
+                  alt="서울 지도"
+                  width={1200}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+              <div className="px-5 pb-5 grid grid-cols-3 gap-2">
+                <div className="bg-white rounded-xl p-3 text-center border border-pink-50">
+                  <div className="w-4 h-4 rounded-full mx-auto mb-1" style={{background:"#bbdefb"}}></div>
+                  <p className="text-xs text-[#888]">82~90%</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 text-center border border-pink-50">
+                  <div className="w-4 h-4 rounded-full mx-auto mb-1" style={{background:"#64b5f6"}}></div>
+                  <p className="text-xs text-[#888]">90~93%</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 text-center border border-pink-50">
+                  <div className="w-4 h-4 rounded-full mx-auto mb-1" style={{background:"#1565c0"}}></div>
+                  <p className="text-xs text-[#888]">93~96%</p>
+                </div>
+              </div>
             </div>
           </section>
         )}

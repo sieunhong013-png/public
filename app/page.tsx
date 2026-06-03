@@ -562,10 +562,12 @@ export default function Home() {
   const [showNoTreatmentModal, setShowNoTreatmentModal] = useState(false);
   const [showPersonalDiagnosisModal, setShowPersonalDiagnosisModal] = useState(false);
   const [noTreatmentDraft, setNoTreatmentDraft] = useState("");
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [noTreatmentReasons, setNoTreatmentReasons] = useState<NoTreatmentReasonStat[]>([]);
 
   useEffect(() => {
-    supabase.from('reasons').select('reason').then(({ data }) => {
+    supabase.from('reasons').select('reason', { count: 'exact' }).then(({ data, count }) => {
+      setTotalCount(count || 0);
       if (!data) return;
       const map: Record<string, number> = {};
       data.forEach(({ reason }: { reason: string }) => { map[reason] = (map[reason] || 0) + 1; });
@@ -1528,6 +1530,11 @@ export default function Home() {
               >
                 제출하고 순위 반영
               </button>
+              <div className="mb-3 text-center py-2 px-4 bg-pink-50 rounded-lg">
+                <span className="text-sm text-gray-600">지금까지 </span>
+                <span className="text-lg font-bold text-pink-600">{totalCount}명</span>
+                <span className="text-sm text-gray-600">이 이유를 공유했습니다</span>
+              </div>
               <h4 className="mb-2 text-sm font-medium">이유 순위</h4>
               {rankedNoTreatmentReasons.length === 0 ? (
                 <p className="rounded-[12px] border border-dashed border-[var(--dark-border)] px-4 py-6 text-center text-sm text-[var(--text-secondary)]">

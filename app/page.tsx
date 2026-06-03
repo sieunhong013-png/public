@@ -2,6 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 import { KCHS_SEOUL_2024 } from "@/data/kchsSeoulBenchmark";
 import {
@@ -557,6 +563,17 @@ export default function Home() {
   const [showPersonalDiagnosisModal, setShowPersonalDiagnosisModal] = useState(false);
   const [noTreatmentDraft, setNoTreatmentDraft] = useState("");
   const [noTreatmentReasons, setNoTreatmentReasons] = useState<NoTreatmentReasonStat[]>([]);
+
+  useEffect(() => {
+    supabase.from('reasons').select('reason').then(({ data }) => {
+      if (!data) return;
+      const map: Record<string, number> = {};
+      data.forEach(({ reason }: { reason: string }) => { map[reason] = (map[reason] || 0) + 1; });
+      setNoTreatmentReasons(
+        Object.entries(map).map(([text, count]) => ({ text, count, lastSubmittedAt: Date.now() }))
+      );
+    });
+  }, []);
   const [personalDiagnosisForm, setPersonalDiagnosisForm] = useState<PersonalDiagnosisForm>(
     EMPTY_PERSONAL_DIAGNOSIS_FORM,
   );
@@ -789,11 +806,8 @@ export default function Home() {
               i === idx ? { ...r, count: r.count + 1, lastSubmittedAt: now } : r,
             )
           : [...prev, { text, count: 1, lastSubmittedAt: now }];
-      try {
-        localStorage.setItem(NO_TREATMENT_REASONS_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore quota */
-      }
+      // Supabase에 저장
+      supabase.from('reasons').insert({ reason: text }).then(() => {});
       return next;
     });
     setNoTreatmentDraft("");

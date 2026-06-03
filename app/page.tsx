@@ -1830,7 +1830,7 @@ export default function Home() {
                   </div>
 
                   <button type="submit"
-                    style={{width:"100%",padding:"16px",borderRadius:"16px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"16px",fontWeight:"700",cursor:"pointer",boxShadow:"0 4px 20px rgba(214,51,132,0.35),letterSpacing:"0.5px"}}>
+                    style={{width:"100%",padding:"16px",borderRadius:"16px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"16px",fontWeight:"700",cursor:"pointer",boxShadow:"0 4px 20px rgba(214,51,132,0.35)",letterSpacing:"0.5px"}}>
                     🔍 나의 혈압 건강 진단 받기
                   </button>
                 </form>

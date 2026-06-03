@@ -120,10 +120,10 @@ export function buildPersonalDiagnosis(
 
   if (matchesManagementGap) {
     segmentKey = "management_gap";
-    cohortSegment = `관리 공백 추정 군(전체의 ${b.managementGapRate}%, 약 ${formatKchsN(b.managementGapRate).toLocaleString("ko-KR")}명)`;
+    cohortSegment = `미치료율 추정 군(전체의 ${b.managementGapRate}%, 약 ${formatKchsN(b.managementGapRate).toLocaleString("ko-KR")}명)`;
     level = "urgent";
     cohortComparisons.push(
-      `귀하의 응답 패턴은 23만 명 중 관리 공백 ${b.managementGapRate}% 집단(치료율 표준화율 ${b.treatmentStandardizationRate}% 미달 영역)과 유사합니다.`,
+      `귀하의 응답 패턴은 23만 명 중 미치료율 ${b.managementGapRate}% 집단(치료율 표준화율 ${b.treatmentStandardizationRate}% 미달 영역)과 유사합니다.`,
     );
   } else if (matchesTreatmentLinked) {
     segmentKey = "treatment_linked";
@@ -140,7 +140,7 @@ export function buildPersonalDiagnosis(
       `진단 경험이 없으나 ${ageStats.label}·${genderStats.label} 고혈압 유병률(${ageStats.hypertensionRate}% / ${genderStats.hypertensionRate}%) 대비 선별 검사가 필요할 수 있습니다.`,
     );
     cohortComparisons.push(
-      `23만 명 중 관리 공백 ${b.managementGapRate}%(${formatKchsN(b.managementGapRate).toLocaleString("ko-KR")}명)에는 미진단·미복약 고위험 응답도 포함됩니다.`,
+      `23만 명 중 미치료율 ${b.managementGapRate}%(${formatKchsN(b.managementGapRate).toLocaleString("ko-KR")}명)에는 미진단·미복약 고위험 응답도 포함됩니다.`,
     );
   } else {
     segmentKey = "prevention";
@@ -190,7 +190,7 @@ export function buildPersonalDiagnosis(
 
   const levelLabel =
     level === "urgent"
-      ? "관리 공백 군 — 적극 연계 필요"
+      ? "미치료율 군 — 적극 연계 필요"
       : level === "caution"
         ? "평균 이하 — 생활·교육 보완"
         : "표준화 관리 군 — 유지";
@@ -199,7 +199,7 @@ export function buildPersonalDiagnosis(
 
   if (segmentKey === "management_gap") {
     recommendations.push(
-      `23만 명 조사에서 관리 공백 ${b.managementGapRate}%에 해당할 수 있습니다. 가까운 보건소·내과에서 약물·구두 치료 연계를 받으세요.`,
+      `23만 명 조사에서 미치료율 ${b.managementGapRate}%에 해당할 수 있습니다. 가까운 보건소·내과에서 약물·구두 치료 연계를 받으세요.`,
     );
   }
   if (segmentKey === "treatment_linked") {

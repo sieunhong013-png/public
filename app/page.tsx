@@ -1653,12 +1653,12 @@ export default function Home() {
                     </div>
                   </div>
                   <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #f0e0e8"}}>
-                    <p style={{fontSize:"13px",fontWeight:700,color:"#d63384",marginBottom:"6px"}}>📋 진단 요약</p>
+                    <p style={{fontSize:"13px",fontWeight:"700",color:"#d63384",marginBottom:"6px"}}>📋 진단 요약</p>
                     <p style={{fontSize:"13px",color:"#444",lineHeight:"1.6"}}>{personalDiagnosisResult.summary}</p>
                   </div>
                   {personalDiagnosisResult.cohortComparisons.length > 0 && (
                     <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #e3f2fd"}}>
-                      <p style={{fontSize:"13px",fontWeight:700,color:"#1565c0",marginBottom:"10px"}}>📊 23만 명 대비 나는?</p>
+                      <p style={{fontSize:"13px",fontWeight:"700",color:"#1565c0",marginBottom:"10px"}}>📊 23만 명 대비 나는?</p>
                       <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
                         {personalDiagnosisResult.cohortComparisons.slice(0,4).map((line) => (
                           <div key={line} style={{display:"flex",alignItems:"flex-start",gap:"8px",padding:"8px 10px",background:"#f8fbff",borderRadius:"10px"}}>
@@ -1670,7 +1670,7 @@ export default function Home() {
                     </div>
                   )}
                   <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #e8f5e9"}}>
-                    <p style={{fontSize:"13px",fontWeight:700,color:"#2d6a4f",marginBottom:"10px"}}>💡 맞춤 권고</p>
+                    <p style={{fontSize:"13px",fontWeight:"700",color:"#2d6a4f",marginBottom:"10px"}}>💡 맞춤 권고</p>
                     <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
                       {personalDiagnosisResult.recommendations.map((line) => (
                         <div key={line} style={{display:"flex",alignItems:"flex-start",gap:"8px",padding:"8px 10px",background:"#f0fff4",borderRadius:"10px"}}>
@@ -1686,7 +1686,7 @@ export default function Home() {
                       🔄 다시 하기
                     </button>
                     <button type="button" onClick={() => selectViewTab("medicationVerbal")}
-                      style={{padding:"14px",borderRadius:"14px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"14px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 16px rgba(214,51,132,0.3)"}}>
+                      style={{padding:"14px",borderRadius:"14px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"14px",fontWeight:"700",cursor:"pointer",boxShadow:"0 4px 16px rgba(214,51,132,0.3)"}}>
                       🏥 치료기관 찾기
                     </button>
                   </div>
@@ -1702,7 +1702,7 @@ export default function Home() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className="diag-section-icon" style={{background:"#fce4ec"}}>👤</div>
                       <div>
-                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>기본 정보</p>
+                        <p style={{fontWeight:"700",color:"#1a1a2e",fontSize:"15px"}}>기본 정보</p>
                         <p style={{fontSize:"12px",color:"#aaa"}}>이름, 성별, 나이를 알려주세요</p>
                       </div>
                     </div>
@@ -1747,7 +1747,7 @@ export default function Home() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className="diag-section-icon" style={{background:"#e8f5e9"}}>💊</div>
                       <div>
-                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>건강 · 관리 정보</p>
+                        <p style={{fontWeight:"700",color:"#1a1a2e",fontSize:"15px"}}>건강 · 관리 정보</p>
                         <p style={{fontSize:"12px",color:"#aaa"}}>현재 건강 상태를 선택해주세요</p>
                       </div>
                     </div>
@@ -1804,7 +1804,7 @@ export default function Home() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className="diag-section-icon" style={{background:"#e3f2fd"}}>🧠</div>
                       <div>
-                        <p style={{fontWeight:700,color:"#1a1a2e",fontSize:"15px"}}>고혈압 지식 퀴즈</p>
+                        <p style={{fontWeight:"700",color:"#1a1a2e",fontSize:"15px"}}>고혈압 지식 퀴즈</p>
                         <p style={{fontSize:"12px",color:"#aaa"}}>알고 계신 만큼 솔직하게 선택해주세요</p>
                       </div>
                     </div>
@@ -1812,7 +1812,7 @@ export default function Home() {
                       {HYPERTENSION_KNOWLEDGE_QUESTIONS.map((q, index) => (
                         <div key={q.id} style={{background:"#fafafa",borderRadius:"16px",padding:"14px 16px",border:"1px solid #f5e6ef"}}>
                           <p style={{fontSize:"13px",color:"#1a1a2e",fontWeight:600,marginBottom:"10px",lineHeight:"1.5"}}>
-                            <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:"22px",height:"22px",borderRadius:"50%",background:"#fce4ec",color:"#d63384",fontSize:"11px",fontWeight:700,marginRight:"8px",flexShrink:0}}>{index+1}</span>
+                            <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:"22px",height:"22px",borderRadius:"50%",background:"#fce4ec",color:"#d63384",fontSize:"11px",fontWeight:"700",marginRight:"8px",flexShrink:0}}>{index+1}</span>
                             {q.question}
                           </p>
                           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"6px"}}>
@@ -1830,7 +1830,7 @@ export default function Home() {
                   </div>
 
                   <button type="submit"
-                    style={{width:"100%",padding:"16px",borderRadius:"16px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"16px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 20px rgba(214,51,132,0.35)),letterSpacing:"0.5px"}}>
+                    style={{width:"100%",padding:"16px",borderRadius:"16px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"16px",fontWeight:"700",cursor:"pointer",boxShadow:"0 4px 20px rgba(214,51,132,0.35)),letterSpacing:"0.5px"}}>
                     🔍 나의 혈압 건강 진단 받기
                   </button>
                 </form>

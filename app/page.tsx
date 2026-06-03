@@ -1635,59 +1635,62 @@ export default function Home() {
                     <p className="text-sm text-[var(--text-muted)]">
                       {personalDiagnosisResult.benchmarkSource}
                     </p>
-                    <p className="mt-1 text-lg font-medium">{personalDiagnosisResult.levelLabel}</p>
-                    <p className="mt-1 text-sm text-[var(--stat-blue)]">
-                      {personalDiagnosisResult.cohortSegment}
-                    </p>
-                    <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                      고혈압 지식{" "}
-                      <span className="font-display text-xl text-[var(--accent)]">
-                        {personalDiagnosisResult.knowledgeScore}
-                      </span>
-                      점 (23만 명 평균 {KCHS_SEOUL_2024.knowledge.meanScore}점)
-                    </p>
+                <div style={{display:"flex",flexDirection:"column",gap:"14px"}}>
+                  <div style={{borderRadius:"20px",padding:"20px",background:personalDiagnosisResult.level==="urgent"?"linear-gradient(135deg,#fce4ec,#fff0f6)":personalDiagnosisResult.level==="caution"?"linear-gradient(135deg,#e3f2fd,#f0f8ff)":"linear-gradient(135deg,#e8f5e9,#f0fff4)",border:personalDiagnosisResult.level==="urgent"?"2px solid #d63384":personalDiagnosisResult.level==="caution"?"2px solid #1565c0":"2px solid #2d6a4f",textAlign:"center"}}>
+                    <div style={{fontSize:"48px",marginBottom:"8px"}}>{personalDiagnosisResult.level==="urgent"?"⚠️":personalDiagnosisResult.level==="caution"?"💙":"✅"}</div>
+                    <p style={{fontSize:"22px",fontWeight:800,color:personalDiagnosisResult.level==="urgent"?"#d63384":personalDiagnosisResult.level==="caution"?"#1565c0":"#2d6a4f",marginBottom:"6px"}}>{personalDiagnosisResult.levelLabel}</p>
+                    <p style={{fontSize:"13px",color:"#888",marginBottom:"12px"}}>{personalDiagnosisResult.cohortSegment}</p>
+                    <div style={{display:"flex",justifyContent:"center",gap:"24px",padding:"12px 0",borderTop:"1px solid rgba(0,0,0,0.06)"}}>
+                      <div style={{textAlign:"center"}}>
+                        <p style={{fontSize:"28px",fontWeight:800,color:"#d63384"}}>{personalDiagnosisResult.knowledgeScore}</p>
+                        <p style={{fontSize:"11px",color:"#aaa"}}>내 지식 점수</p>
+                      </div>
+                      <div style={{width:"1px",background:"rgba(0,0,0,0.08)"}}/>
+                      <div style={{textAlign:"center"}}>
+                        <p style={{fontSize:"28px",fontWeight:800,color:"#888"}}>{KCHS_SEOUL_2024.knowledge.meanScore}</p>
+                        <p style={{fontSize:"11px",color:"#aaa"}}>23만명 평균</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm leading-relaxed text-white">{personalDiagnosisResult.summary}</p>
+                  <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #f0e0e8"}}>
+                    <p style={{fontSize:"13px",fontWeight:700,color:"#d63384",marginBottom:"6px"}}>📋 진단 요약</p>
+                    <p style={{fontSize:"13px",color:"#444",lineHeight:"1.6"}}>{personalDiagnosisResult.summary}</p>
+                  </div>
                   {personalDiagnosisResult.cohortComparisons.length > 0 && (
-                    <div>
-                      <h4 className="mb-2 text-sm font-medium">23만 명 조사 대비 비교</h4>
-                      <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-                        {personalDiagnosisResult.cohortComparisons.map((line) => (
-                          <li key={line} className="flex gap-2">
-                            <span className="shrink-0 text-[var(--stat-blue)]">›</span>
-                            <span>{line}</span>
-                          </li>
+                    <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #e3f2fd"}}>
+                      <p style={{fontSize:"13px",fontWeight:700,color:"#1565c0",marginBottom:"10px"}}>📊 23만 명 대비 나는?</p>
+                      <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
+                        {personalDiagnosisResult.cohortComparisons.slice(0,4).map((line) => (
+                          <div key={line} style={{display:"flex",alignItems:"flex-start",gap:"8px",padding:"8px 10px",background:"#f8fbff",borderRadius:"10px"}}>
+                            <span style={{fontSize:"14px",flexShrink:0}}>›</span>
+                            <span style={{fontSize:"12px",color:"#444",lineHeight:"1.5"}}>{line}</span>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                   )}
-                  <div>
-                    <h4 className="mb-2 text-sm font-medium">맞춤 권고</h4>
-                    <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
+                  <div style={{borderRadius:"16px",padding:"14px 16px",background:"white",border:"1px solid #e8f5e9"}}>
+                    <p style={{fontSize:"13px",fontWeight:700,color:"#2d6a4f",marginBottom:"10px"}}>💡 맞춤 권고</p>
+                    <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
                       {personalDiagnosisResult.recommendations.map((line) => (
-                        <li key={line} className="flex gap-2">
-                          <span className="text-[var(--accent)]">·</span>
-                          <span>{line}</span>
-                        </li>
+                        <div key={line} style={{display:"flex",alignItems:"flex-start",gap:"8px",padding:"8px 10px",background:"#f0fff4",borderRadius:"10px"}}>
+                          <span style={{fontSize:"14px",flexShrink:0}}>·</span>
+                          <span style={{fontSize:"12px",color:"#444",lineHeight:"1.5"}}>{line}</span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <button
-                      type="button"
-                      className="rounded-full border border-[var(--dark-border)] px-4 py-2 text-base text-[var(--text-secondary)] hover:bg-white/5"
-                      onClick={resetPersonalDiagnosisForm}
-                    >
-                      설문 다시 작성
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}}>
+                    <button type="button" onClick={resetPersonalDiagnosisForm}
+                      style={{padding:"14px",borderRadius:"14px",border:"2px solid #f0e0e8",background:"white",color:"#888",fontSize:"14px",fontWeight:600,cursor:"pointer"}}>
+                      🔄 다시 하기
                     </button>
-                    <button
-                      type="button"
-                      className="rounded-full bg-[var(--seoul-blue)] px-4 py-2 text-base font-medium text-white hover:bg-[var(--seoul-blue-light)]"
-                      onClick={() => selectViewTab("medicationVerbal")}
-                    >
-                      치료기관 찾기
+                    <button type="button" onClick={() => selectViewTab("medicationVerbal")}
+                      style={{padding:"14px",borderRadius:"14px",border:"none",background:"linear-gradient(135deg,#d63384,#c2185b)",color:"white",fontSize:"14px",fontWeight:700,cursor:"pointer",boxShadow:"0 4px 16px rgba(214,51,132,0.3)"}}>
+                      🏥 치료기관 찾기
                     </button>
                   </div>
+                </div>
                 </div>
               ) : (
                 <form

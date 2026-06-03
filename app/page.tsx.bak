@@ -866,7 +866,7 @@ export default function Home() {
           <div className="flex flex-1 flex-col items-center border-r border-[var(--dark-border)] px-4 py-5 sm:px-6">
             <p className="text-sm text-[var(--text-secondary)]">2024 지역사회건강조사</p>
             <p className="font-display mt-1 text-4xl text-[var(--accent)] sm:text-5xl">7.7%</p>
-            <p className="mt-1 text-center text-base text-[var(--text-secondary)]">관리 공백 추정 비율</p>
+            <p className="mt-1 text-center text-base text-[var(--text-secondary)]">미치료율 추정 비율</p>
           </div>
           <div className="flex flex-1 flex-col items-center px-4 py-5 sm:px-6">
             <p className="text-sm text-[var(--text-secondary)]">목표</p>
@@ -1299,7 +1299,7 @@ export default function Home() {
                 </h3>
                 <p className="mt-1 text-sm text-[var(--text-secondary)]">
                   {KCHS_SEOUL_2024.surveyLabel} {KCHS_SEOUL_2024.sampleSize.toLocaleString("ko-KR")}명
-                  표본(치료율 {KCHS_SEOUL_2024.treatmentStandardizationRate}% / 관리 공백{" "}
+                  표본(치료율 {KCHS_SEOUL_2024.treatmentStandardizationRate}% / 미치료율{" "}
                   {KCHS_SEOUL_2024.managementGapRate}%)과 비교해 진단합니다.
                 </p>
               </div>
@@ -1391,7 +1391,7 @@ export default function Home() {
                 >
                   <p className="rounded-[12px] border border-[var(--dark-border)] bg-[var(--dark)]/60 px-3 py-2 text-base text-[var(--text-secondary)]">
                     응답은 {KCHS_SEOUL_2024.sampleSize.toLocaleString("ko-KR")}명 지역사회건강조사 집계와
-                    대조해, 치료 연계({KCHS_SEOUL_2024.treatmentStandardizationRate}%)·관리 공백(
+                    대조해, 치료 연계({KCHS_SEOUL_2024.treatmentStandardizationRate}%)·미치료율(
                     {KCHS_SEOUL_2024.managementGapRate}%) 군에 가까운지 판단합니다.
                   </p>
                   <fieldset className="space-y-3">

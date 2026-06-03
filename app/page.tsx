@@ -875,7 +875,7 @@ export default function Home() {
               <p className="text-2xl font-medium text-[#1565c0]">92.3%</p>
             </div>
             <div className="rounded-2xl bg-white border border-pink-100 p-3 text-center shadow-sm">
-              <p className="text-xs text-[#888] mb-1">관리 공백</p>
+              <p className="text-xs text-[#888] mb-1">미치료율</p>
               <p className="text-2xl font-medium text-[#d63384]">7.7%</p>
             </div>
             <div className="rounded-2xl bg-white border border-pink-100 p-3 text-center shadow-sm">
@@ -894,7 +894,7 @@ export default function Home() {
           <div className="flex flex-1 flex-col items-center border-r border-[var(--dark-border)] px-4 py-5 sm:px-6">
             <p className="text-sm text-[var(--text-secondary)]">2024 지역사회건강조사</p>
             <p className="font-display mt-1 text-4xl text-[var(--accent)] sm:text-5xl">7.7%</p>
-            <p className="mt-1 text-center text-base text-[var(--text-secondary)]">관리 공백 추정 비율</p>
+            <p className="mt-1 text-center text-base text-[var(--text-secondary)]">미치료율 추정 비율</p>
           </div>
           <div className="flex flex-1 flex-col items-center px-4 py-5 sm:px-6">
             <p className="text-sm text-[var(--text-secondary)]">목표</p>

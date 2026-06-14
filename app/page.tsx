@@ -872,9 +872,7 @@ export default function Home() {
                 2026 서울 건강 캠페인
               </span>
               <h1 className="text-2xl font-medium leading-snug tracking-tight text-[#1a1a2e] sm:text-3xl mb-2">
-                나머지 <span className="text-[#d63384]">7.7%</span>의<br />
-                서울시민 건강을<br />
-                <span className="text-[#2d6a4f]">함께 찾습니다</span>
+                나머지 <span className="text-[#d63384]">7.7%</span>의 서울시민 건강을 <span className="text-[#2d6a4f]">함께 찾습니다</span>
               </h1>
               <p className="text-sm text-[#888] mb-5">고혈압 치료율 92.3% → 100% 목표</p>
             </div>

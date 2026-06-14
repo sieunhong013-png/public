@@ -818,37 +818,41 @@ export default function Home() {
   return (
     <div className="relative z-10 flex min-h-screen flex-col text-[var(--text-primary)]">
       <header className="sticky top-0 z-40 border-b border-[var(--dark-border)] bg-[var(--dark)]/75 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
-          <div className="rounded-md bg-white px-2 py-1">
-            <Image
-              src="/seoul.png"
-              alt="서울특별시"
-              width={120}
-              height={36}
-              className="h-8 w-auto object-contain"
-              priority
-            />
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="rounded-md bg-white px-2 py-1">
+              <Image
+                src="/seoul.png"
+                alt="서울특별시"
+                width={120}
+                height={36}
+                className="h-8 w-auto object-contain"
+                priority
+              />
+            </div>
+            <span className="text-xs font-medium text-[var(--text-secondary)] whitespace-nowrap">
+              고혈압 치료 연계
+            </span>
+            <button
+              type="button"
+              onClick={() => selectViewTab("chsWebsite")}
+              className={`rounded-full border px-2 py-1 text-xs font-medium transition whitespace-nowrap ${
+                activeViewTab === "chsWebsite"
+                  ? "border-[var(--stat-blue)]/40 bg-[var(--seoul-blue)]/20 text-[var(--stat-blue)]"
+                  : "border-[var(--dark-border)] text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+              }`}
+            >
+              누리집 연결하기
+            </button>
           </div>
-          <span className="text-xs font-medium text-[var(--text-secondary)] whitespace-nowrap">
-            고혈압 치료 연계
-          </span>
-          <button
-            type="button"
-            onClick={() => selectViewTab("chsWebsite")}
-            className={`rounded-full border px-2 py-1 text-xs font-medium transition whitespace-nowrap ${
-              activeViewTab === "chsWebsite"
-                ? "border-[var(--stat-blue)]/40 bg-[var(--seoul-blue)]/20 text-[var(--stat-blue)]"
-                : "border-[var(--dark-border)] text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
-            }`}
-          >
-            누리집 연결하기
-          </button>
-          <div className="inline-flex items-center rounded-full border border-[var(--dark-border)] bg-white px-2 py-1">
-            <img src="/chs.png" alt="지역사회건강조사" className="h-4 w-auto object-contain" />
+          <div className="flex items-center gap-2">
+            <div className="inline-flex items-center rounded-full border border-[var(--dark-border)] bg-white px-2 py-1">
+              <img src="/chs.png" alt="지역사회건강조사" className="h-4 w-auto object-contain" />
+            </div>
+            <span className="rounded-full border border-[var(--dark-border)] px-2 py-1 text-xs text-[var(--text-secondary)] whitespace-nowrap">
+              2026 캠페인 | 5월 16일 ~ 7월 31일
+            </span>
           </div>
-          <span className="rounded-full border border-[var(--dark-border)] px-2 py-1 text-xs text-[var(--text-secondary)] whitespace-nowrap">
-            2026 캠페인 | 5월 16일 ~ 7월 31일
-          </span>
         </div>
       </header>
 

@@ -846,8 +846,8 @@ export default function Home() {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <div className="inline-flex items-center rounded-full border border-[var(--dark-border)] bg-white px-2 py-1">
-              <img src="/chs.png" alt="지역사회건강조사" className="h-4 w-auto object-contain" />
+            <div className="inline-flex items-center rounded-md border border-[var(--dark-border)] bg-white px-2 py-1">
+              <img src="/chs.png" alt="지역사회건강조사" className="h-8 w-auto object-contain" />
             </div>
             <span className="rounded-full border border-[var(--dark-border)] px-2 py-1 text-xs text-[var(--text-secondary)] whitespace-nowrap">
               2026 캠페인 | 5월 16일 ~ 7월 31일

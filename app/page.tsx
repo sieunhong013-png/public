@@ -1441,24 +1441,7 @@ export default function Home() {
         )}
 
         <footer className="mt-auto border-t border-[var(--dark-border)] pt-6">
-          <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-center sm:gap-8">
-            <div className="flex h-[72px] w-[200px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-[var(--dark-border)] bg-white px-2 sm:h-20 sm:w-[220px]">
-              <Image
-                src="/chs.png"
-                alt="지역사회건강조사 로고"
-                width={512}
-                height={128}
-                className="h-full w-full object-contain object-center"
-                loading="eager"
-              />
-            </div>
-            <div className="flex shrink-0 flex-col items-center gap-1 text-center sm:items-start sm:text-left">
-              <span className="rounded-full border border-[var(--dark-border)] bg-white/5 px-3 py-1.5 text-sm font-medium text-[var(--text-secondary)]">
-                2026 캠페인
-                |  2026년 5월 16일 ~ 7월 31일</span>
-            </div>
-          </div>
-          <div className="mt-8 flex w-full flex-col items-center gap-4 border-t border-[var(--dark-border)] pt-8 pb-4">
+          <div className="flex w-full flex-col items-center gap-4 pb-4">
             <p className="text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
               협력 기관
             </p>

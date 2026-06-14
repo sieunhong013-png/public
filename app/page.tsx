@@ -844,6 +844,12 @@ export default function Home() {
             >
               누리집 연결하기
             </button>
+            <div className="hidden sm:inline-flex items-center rounded-full border border-[var(--dark-border)] bg-white px-2 py-1">
+              <img src="/chs.png" alt="지역사회건강조사" className="h-5 w-auto object-contain" />
+            </div>
+            <span className="hidden rounded-full border border-[var(--dark-border)] px-3 py-1.5 text-sm text-[var(--text-secondary)] sm:inline-flex">
+              2026 캠페인 | 5월 16일 ~ 7월 31일
+            </span>
           </div>
           <nav className="flex flex-wrap items-center justify-end gap-1 text-sm sm:gap-2 sm:text-base">
             <button type="button" className="px-2 py-1 text-[var(--text-secondary)] hover:text-white" onClick={() => selectViewTab("meal")}>

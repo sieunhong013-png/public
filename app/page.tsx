@@ -867,7 +867,7 @@ export default function Home() {
           <div className="relative overflow-hidden rounded-3xl px-6 py-8 mb-6" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 60%,#fce4ec 100%)"}}>
             <div className="absolute right-[-20px] top-[-20px] w-32 h-32 rounded-full opacity-20" style={{background:"#d63384"}}></div>
             <div className="absolute right-[30px] bottom-[-30px] w-20 h-20 rounded-full opacity-10" style={{background:"#d63384"}}></div>
-            <div className="relative z-10">
+            <div className="relative z-10 text-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-white px-3 py-1 text-sm font-medium text-pink-600 mb-4">
                 2026 서울 건강 캠페인
               </span>

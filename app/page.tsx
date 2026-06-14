@@ -877,12 +877,6 @@ export default function Home() {
                 <span className="text-[#2d6a4f]">함께 찾습니다</span>
               </h1>
               <p className="text-sm text-[#888] mb-5">고혈압 치료율 92.3% → 100% 목표</p>
-          <h1 className="mx-auto max-w-3xl text-2xl font-medium leading-snug tracking-tight sm:text-3xl md:text-4xl">
-            서울시민의 고혈압 치료율 표준화율은{" "}
-            <span className="text-[var(--accent)]">92.3%</span>로
-            <br />
-            나머지 <span className="text-[var(--stat-blue)]">7.7%</span>의 서울시민의 건강을 찾습니다
-          </h1>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2 mb-2">

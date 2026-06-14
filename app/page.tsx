@@ -864,14 +864,14 @@ export default function Home() {
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-12 pt-8 sm:px-6">
         <section className="animate-fade-up mb-6">
-          <div className="relative overflow-hidden rounded-3xl px-6 py-8 mb-6" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 60%,#fce4ec 100%)"}}>
+          <div className="relative overflow-hidden rounded-3xl px-6 py-8 mb-6 mx-auto max-w-2xl" style={{background:"linear-gradient(135deg,#fce4ec 0%,#fdf0f5 60%,#fce4ec 100%)"}}>
             <div className="absolute right-[-20px] top-[-20px] w-32 h-32 rounded-full opacity-20" style={{background:"#d63384"}}></div>
             <div className="absolute right-[30px] bottom-[-30px] w-20 h-20 rounded-full opacity-10" style={{background:"#d63384"}}></div>
             <div className="relative z-10 text-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-white px-3 py-1 text-sm font-medium text-pink-600 mb-4">
                 2026 서울 건강 캠페인
               </span>
-              <h1 className="text-2xl font-medium leading-snug tracking-tight text-[#1a1a2e] sm:text-3xl mb-2">
+              <h1 className="text-lg font-medium leading-snug tracking-tight text-[#1a1a2e] sm:text-2xl mb-2 whitespace-nowrap">
                 나머지 <span className="text-[#d63384]">7.7%</span>의 서울시민 건강을 <span className="text-[#2d6a4f]">함께 찾습니다</span>
               </h1>
               <p className="text-sm text-[#888] mb-5">고혈압 치료율 92.3% → 100% 목표</p>
